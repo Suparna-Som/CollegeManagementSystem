@@ -1,0 +1,45 @@
+<div class="container">
+    <mat-card class="card container">
+        <form [formGroup]="registrationForm">
+            <mat-card-title>Register</mat-card-title>
+            <mat-card-subtitle>Please fill in this form to create an account.</mat-card-subtitle>
+            <hr>
+            <mat-form-field class="form-field" appearance="outline">
+                <mat-label> Name
+                </mat-label>
+                <input matInput formControlName="name" maxlength="40" type="text">
+                <mat-error *ngIf="registrationForm.controls.name.touched && registrationForm.controls.name.invalid">
+                    <span *ngIf="registrationForm.controls.name.errors!.required">This field is mandatory.</span>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form-field" appearance="outline">
+                <mat-label> Email
+                </mat-label>
+                <input matInput formControlName="email" maxlength="40" type="email">
+                <mat-error *ngIf="registrationForm.controls.email.touched && registrationForm.controls.email.invalid">
+                    <span *ngIf="registrationForm.controls.email.errors!.required">This field is mandatory.</span>
+                    <span *ngIf="registrationForm.controls.email.errors!.pattern">Enter proper Email.</span>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form-field" appearance="outline">
+                <mat-label> Password
+                </mat-label>
+                <input matInput formControlName="password" maxlength="40" type="password">
+                <mat-error
+                    *ngIf="registrationForm.controls.password.touched && registrationForm.controls.password.invalid">
+                    <span *ngIf="registrationForm.controls.password.errors!.required">This field is mandatory.</span>
+                    <span *ngIf="registrationForm.controls.password.errors!.pattern">Min 8 characters,
+                        1 uppercase, 1 lowercase and 1 number</span>
+                </mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" (click)="submit()" type="submit"
+                class="btn mt-1 mb-1">Register</button>
+
+
+            <div class="container signin">
+                <p>Already have an account? <a routerLink="/login">Sign in</a>.</p>
+            </div>
+        </form>
+    </mat-card>
+</div>

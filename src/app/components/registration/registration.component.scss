@@ -1,0 +1,17 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .card{
+        margin-top: 10vh;
+        height: auto;
+        width: 28vw;
+        .btn{
+            width: 100%;
+        }
+        .form-field{
+            width: 100%;
+        }
+    }
+}

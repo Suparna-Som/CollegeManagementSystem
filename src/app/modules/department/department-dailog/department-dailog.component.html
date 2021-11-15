@@ -1,0 +1,53 @@
+<div class="container">
+    <h2>Department ADD</h2>
+    <form [formGroup]="departmentForm">
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label> ID
+            </mat-label>
+            <input matInput formControlName="id" maxlength="40" type="text">
+            <mat-error *ngIf="departmentForm.controls.id.touched && departmentForm.controls.id.invalid">
+                <span *ngIf="departmentForm.controls.id.errors!.required">This field is mandatory.</span>
+            </mat-error>
+        </mat-form-field><br>
+
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label> Name
+            </mat-label>
+            <input matInput formControlName="name" maxlength="40" type="text">
+            <mat-error *ngIf="departmentForm.controls.name.touched && departmentForm.controls.name.invalid">
+                <span *ngIf="departmentForm.controls.name.errors!.required">This field is mandatory.</span>
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label> Head
+            </mat-label>
+            <input matInput formControlName="head" maxlength="40" type="text">
+            <mat-error *ngIf="departmentForm.controls.head.touched && departmentForm.controls.head.invalid">
+                <span *ngIf="departmentForm.controls.head.errors!.required">This field is mandatory.</span>
+            </mat-error>
+        </mat-form-field>
+        <div class="teacher">
+            <label>Add teachers :</label>
+            <div class="form-array">
+                <div formArrayName="teacher" *ngFor="let teacher of addteacher; let i=index">
+                    <mat-form-field class="form-field" [ngClass]="{ 'form-field-teacher':addteacher.length > 1}"
+                        appearance="outline">
+                        <mat-label>Name of teachers</mat-label>
+                        <input matInput [formControlName]="i">
+
+                    </mat-form-field>
+                    <button mat-icon-button type="button" class="delete-button" (click)="deleteRow(i)"
+                        *ngIf="addteacher.length> 1">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <button style="margin-bottom: 15px;" type="button" mat-raised-button (click)="add()">
+                <mat-icon>add</mat-icon> Add
+            </button>
+        </div>
+        <button mat-raised-button color="primary" type="submit"
+            [mat-dialog-close]="departmentForm.value">Submit</button>
+    </form>
+</div>

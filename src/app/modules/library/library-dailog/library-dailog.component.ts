@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
 @Component({
-  selector: 'app-attendance-dailog',
-  templateUrl: './attendance-dailog.component.html',
-  styleUrls: ['./attendance-dailog.component.scss']
+  selector: 'app-library-dailog',
+  templateUrl: './library-dailog.component.html',
+  styleUrls: ['./library-dailog.component.scss']
 })
-export class AttendanceDailogComponent implements OnInit {
+export class LibraryDailogComponent implements OnInit {
   attendance !: FormGroup;
   constructor() { }
 

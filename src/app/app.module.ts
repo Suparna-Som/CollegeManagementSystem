@@ -16,6 +16,8 @@ import { DepartmentPageComponent } from './modules/department/department-page/de
 import { DepartmentModule } from './modules/department/department.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AttendanceModule } from './modules/attendance/attendance.module';
+import { LibraryModule } from './modules/library/library.module';
+import { StudentModule } from './modules/student/student.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { AttendanceModule } from './modules/attendance/attendance.module';
     MaterialModule,
     DepartmentModule,
     HttpClientModule,
-    AttendanceModule
+    AttendanceModule,
+    LibraryModule,
+    StudentModule
   ],
   providers: [],
   bootstrap: [AppComponent]

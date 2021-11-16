@@ -1,10 +1,9 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AttendanceService } from 'src/app/services/attendance.service';
-import { DepartmentService } from 'src/app/services/department.service';
-import { DepartmentDailogComponent } from '../../department/department-dailog/department-dailog.component';
 import { AttendanceDailogComponent } from '../attendance-dailog/attendance-dailog.component';
 
 @Component({
@@ -34,12 +33,17 @@ export class AttendancePageComponent implements OnInit {
     //   this.call()
     // });
   }
+  deleteData(id) {
+    this.attendannce.deleteData(id);
+  }
+  editData(id) {
+    let a;
+    this.attendannce.updateData(id, a)
+  }
   openDailog() {
     const dailogDef = this.dailog.open(AttendanceDailogComponent)
     dailogDef.afterClosed().subscribe(res => {
-      console.log(res);
-      //this.dataSource.push(res)
-
+      this.attendannce.createData(res)
     })
   }
 }

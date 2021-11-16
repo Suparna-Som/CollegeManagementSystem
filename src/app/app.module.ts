@@ -14,6 +14,8 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { DepartmentRoutingModule } from './modules/department/department-routing.module';
 import { DepartmentPageComponent } from './modules/department/department-page/department-page.component';
 import { DepartmentModule } from './modules/department/department.module';
+import { HttpClientModule } from '@angular/common/http';
+import { AttendanceModule } from './modules/attendance/attendance.module';
 
 @NgModule({
   declarations: [
@@ -32,8 +34,9 @@ import { DepartmentModule } from './modules/department/department.module';
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    DepartmentModule
-
+    DepartmentModule,
+    HttpClientModule,
+    AttendanceModule
   ],
   providers: [],
   bootstrap: [AppComponent]

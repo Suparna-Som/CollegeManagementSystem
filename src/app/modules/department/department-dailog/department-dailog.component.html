@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Department ADD</h2>
+    <h2>Add Department</h2>
     <form [formGroup]="departmentForm">
         <mat-form-field class="form-field" appearance="outline">
             <mat-label> ID
@@ -9,7 +9,6 @@
                 <span *ngIf="departmentForm.controls.id.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field><br>
-
         <mat-form-field class="form-field" appearance="outline">
             <mat-label> Name
             </mat-label>
@@ -47,7 +46,7 @@
                 <mat-icon>add</mat-icon> Add
             </button>
         </div>
-        <button mat-raised-button color="primary" type="submit"
+        <button mat-raised-button class="mb-3" color="primary" type="submit"
             [mat-dialog-close]="departmentForm.value">Submit</button>
     </form>
 </div>

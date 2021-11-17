@@ -4,36 +4,39 @@
         <mat-form-field class="form-field" appearance="outline">
             <mat-label> ID
             </mat-label>
-            <input matInput formControlName="id" maxlength="40" type="text">
-            <mat-error *ngIf="departmentForm.controls.id.touched && departmentForm.controls.id.invalid">
-                <span *ngIf="departmentForm.controls.id.errors!.required">This field is mandatory.</span>
+            <input matInput formControlName="departmentId" (keypress)="numbers($event)" maxlength="40" type="number">
+            <mat-error
+                *ngIf="departmentForm.controls.departmentId.touched && departmentForm.controls.departmentId.invalid">
+                <span *ngIf="departmentForm.controls.departmentId.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field><br>
         <mat-form-field class="form-field" appearance="outline">
             <mat-label> Name
             </mat-label>
-            <input matInput formControlName="name" maxlength="40" type="text">
-            <mat-error *ngIf="departmentForm.controls.name.touched && departmentForm.controls.name.invalid">
-                <span *ngIf="departmentForm.controls.name.errors!.required">This field is mandatory.</span>
+            <input matInput formControlName="departmentName" (keypress)="char($event)" maxlength="40" type="text">
+            <mat-error
+                *ngIf="departmentForm.controls.departmentName.touched && departmentForm.controls.departmentName.invalid">
+                <span *ngIf="departmentForm.controls.departmentName.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field>
         <br>
         <mat-form-field class="form-field" appearance="outline">
-            <mat-label> Head
+            <mat-label> Department Head
             </mat-label>
-            <input matInput formControlName="head" maxlength="40" type="text">
-            <mat-error *ngIf="departmentForm.controls.head.touched && departmentForm.controls.head.invalid">
-                <span *ngIf="departmentForm.controls.head.errors!.required">This field is mandatory.</span>
+            <input matInput formControlName="departmentHead" (keypress)="char($event)" maxlength="40" type="text">
+            <mat-error
+                *ngIf="departmentForm.controls.departmentHead.touched && departmentForm.controls.departmentHead.invalid">
+                <span *ngIf="departmentForm.controls.departmentHead.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field>
         <div class="teacher">
             <label>Add teachers :</label>
             <div class="form-array">
-                <div formArrayName="teacher" *ngFor="let teacher of addteacher; let i=index">
+                <div formArrayName="teachersAll" *ngFor="let teachersAll of addteacher; let i=index">
                     <mat-form-field class="form-field" [ngClass]="{ 'form-field-teacher':addteacher.length > 1}"
                         appearance="outline">
                         <mat-label>Name of teachers</mat-label>
-                        <input matInput [formControlName]="i">
+                        <input matInput (keypress)="char($event)" [formControlName]="i">
 
                     </mat-form-field>
                     <button mat-icon-button type="button" class="delete-button" (click)="deleteRow(i)"

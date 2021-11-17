@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { InputService } from 'src/app/services/input.service';
 
 @Component({
   selector: 'app-department-dailog',
@@ -8,26 +9,32 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class DepartmentDailogComponent implements OnInit {
   departmentForm !: FormGroup;
-  constructor() { }
+  constructor(private input: InputService) { }
 
   ngOnInit(): void {
     this.validator();
   }
   validator() {
     this.departmentForm = new FormGroup({
-      'id': new FormControl('', [Validators.required]),
-      'name': new FormControl('', [Validators.required]),
-      'head': new FormControl('', [Validators.required]),
-      'teacher': new FormArray([new FormControl('', [Validators.required])])
+      'departmentId': new FormControl('', [Validators.required]),
+      'departmentName': new FormControl('', [Validators.required]),
+      'departmentHead': new FormControl('', [Validators.required]),
+      'teachersAll': new FormArray([new FormControl('', [Validators.required])])
     })
   }
   get addteacher() {
-    return (<FormArray>this.departmentForm.get('teacher')).controls;
+    return (<FormArray>this.departmentForm.get('teachersAll')).controls;
   }
   deleteRow(index: number) {
-    (<FormArray>this.departmentForm.get('teacher')).removeAt(index);
+    (<FormArray>this.departmentForm.get('teachersAll')).removeAt(index);
   }
   add() {
-    (<FormArray>this.departmentForm.get('teacher')).push(new FormControl('', Validators.required));
+    (<FormArray>this.departmentForm.get('teachersAll')).push(new FormControl('', Validators.required));
+  }
+  char(event: { keyCode: number; preventDefault: () => void; }) {
+    this.input.characters(event)
+  }
+  numbers(event: { keyCode: number; preventDefault: () => void; }) {
+    this.input.number(event);
   }
 }

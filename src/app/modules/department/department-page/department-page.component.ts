@@ -20,8 +20,8 @@ export interface abc {
   styleUrls: ['./department-page.component.scss']
 })
 export class DepartmentPageComponent implements OnInit, AfterViewInit {
-  dataCol = ['departmentId', 'departmentName', 'departmentHead', 'teachersAll', 'edit', 'delete'];
-  dataSource = [
+  dataCol = ['departmentId', 'departmentName', 'departmentHead', 'teachersAll', 'edit'];
+  dataSource = new MatTableDataSource([
     {
       "departmentId": 1,
       "departmentName": "Computer",
@@ -40,13 +40,13 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
       "departmentHead": "roshan",
       "teachersAll": "roshan"
     }
-  ];
+  ]);
   @ViewChild(MatSort) sort: MatSort;
   constructor(public dailog: MatDialog, private deptService: DepartmentService) {
     this.dailog.afterAllClosed
   }
   ngAfterViewInit(): void {
-    // this.dataSource.sort = this.sort;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {

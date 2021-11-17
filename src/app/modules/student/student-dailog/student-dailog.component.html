@@ -1,1 +1,53 @@
-<p>student-dailog works!</p>
+<div class="container">
+    <h2></h2>
+    <form [formGroup]="attendance">
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Studetn ID
+            </mat-label>
+            <input matInput type="number" formControlName="studentId" (keypress)="numbers($event)" maxlength="40">
+            <mat-error *ngIf="attendance.controls.studentId.touched && attendance.controls.studentId.invalid">
+                <span *ngIf="attendance.controls.studentId.errors!.required">This field is mandatory.</span>
+            </mat-error>
+        </mat-form-field><br>
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Student Name
+            </mat-label>
+            <input matInput formControlName="studentName" maxlength="40" (keypress)="char($event)" type="text">
+            <mat-error *ngIf="attendance.controls.studentName.touched && attendance.controls.studentName.invalid">
+                <span *ngIf="attendance.controls.studentName.errors!.required">This field is mandatory.</span>
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Department Name
+            </mat-label>
+            <input matInput formControlName="departmentName" maxlength="40" (keypress)="char($event)" type="text">
+            <mat-error *ngIf="attendance.controls.departmentName.touched && attendance.controls.departmentName.invalid">
+                <span *ngIf="attendance.controls.departmentName.errors!.required">This field is mandatory.</span>
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Student Mobile No
+            </mat-label>
+            <input matInput formControlName="studentMobileNo" maxlength="40" (keypress)="numbers($event)" type="number">
+            <mat-error
+                *ngIf="attendance.controls.studentMobileNo.touched && attendance.controls.studentMobileNo.invalid">
+                <span *ngIf="attendance.controls.studentMobileNo.errors!.required">This field is mandatory.</span>
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Student Addmission Date
+            </mat-label>
+            <input matInput formControlName="studentAddmissionDate" maxlength="40" type="date">
+            <mat-error
+                *ngIf="attendance.controls.studentAddmissionDate.touched && attendance.controls.studentAddmissionDate.invalid">
+                <span *ngIf="attendance.controls.studentAddmissionDate.errors!.required">This field is mandatory.</span>
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <button mat-raised-button class="mb-3" color="primary" type="submit"
+            [mat-dialog-close]="attendance.value">Submit</button>
+    </form>
+</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { InputService } from 'src/app/services/input.service';
 
 @Component({
   selector: 'app-library-dailog',
@@ -8,27 +9,26 @@ import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 })
 export class LibraryDailogComponent implements OnInit {
   attendance !: FormGroup;
-  constructor() { }
+  constructor(private input: InputService) { }
 
   ngOnInit(): void {
     this.validator();
   }
   validator() {
     this.attendance = new FormGroup({
-      'id': new FormControl('', [Validators.required]),
-      'sname': new FormControl('', [Validators.required]),
-      'dname': new FormControl('', [Validators.required]),
-      'loginTime': new FormControl('', [Validators.required]),
-      'logoutTime': new FormControl('', [Validators.required]),
+      'studentId': new FormControl('', [Validators.required]),
+      'studentName': new FormControl('', [Validators.required]),
+      'bookName': new FormControl('', [Validators.required]),
+      'issueDate': new FormControl('', [Validators.required]),
+      'returnDate': new FormControl('', [Validators.required]),
+      'numberOfBook': new FormControl('', [Validators.required]),
+      'librarian': new FormControl('', [Validators.required]),
     })
   }
-  get addteacher() {
-    return (<FormArray>this.attendance.get('teacher')).controls;
+  char(event: { keyCode: number; preventDefault: () => void; }) {
+    this.input.characters(event)
   }
-  deleteRow(index: number) {
-    (<FormArray>this.attendance.get('teacher')).removeAt(index);
-  }
-  add() {
-    (<FormArray>this.attendance.get('teacher')).push(new FormControl('', Validators.required));
+  numbers(event: { keyCode: number; preventDefault: () => void; }) {
+    this.input.number(event);
   }
 }

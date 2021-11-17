@@ -2,46 +2,64 @@
     <h2></h2>
     <form [formGroup]="attendance">
         <mat-form-field class="form-field" appearance="outline">
-            <mat-label> ID
+            <mat-label> StudentId
             </mat-label>
-            <input matInput formControlName="id" maxlength="40" type="text">
-            <mat-error *ngIf="attendance.controls.id.touched && attendance.controls.id.invalid">
-                <span *ngIf="attendance.controls.id.errors!.required">This field is mandatory.</span>
+            <input matInput formControlName="studentId" maxlength="40" (keypress)="numbers($event)" type="number">
+            <mat-error *ngIf="attendance.controls.studentId.touched && attendance.controls.studentId.invalid">
+                <span *ngIf="attendance.controls.studentId.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field><br>
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>Student Name
             </mat-label>
-            <input matInput formControlName="sname" maxlength="40" type="text">
-            <mat-error *ngIf="attendance.controls.sname.touched && attendance.controls.sname.invalid">
-                <span *ngIf="attendance.controls.sname.errors!.required">This field is mandatory.</span>
+            <input matInput formControlName="studentName" maxlength="40" (keypress)="char($event)" type="text">
+            <mat-error *ngIf="attendance.controls.studentName.touched && attendance.controls.studentName.invalid">
+                <span *ngIf="attendance.controls.studentName.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field>
         <br>
         <mat-form-field class="form-field" appearance="outline">
-            <mat-label>Department Name
+            <mat-label>Book Name
             </mat-label>
-            <input matInput formControlName="dname" maxlength="40" type="text">
-            <mat-error *ngIf="attendance.controls.dname.touched && attendance.controls.dname.invalid">
-                <span *ngIf="attendance.controls.dname.errors!.required">This field is mandatory.</span>
+            <input matInput formControlName="bookName" maxlength="40" (keypress)="char($event)" type="text">
+            <mat-error *ngIf="attendance.controls.bookName.touched && attendance.controls.bookName.invalid">
+                <span *ngIf="attendance.controls.bookName.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field>
         <br>
         <mat-form-field class="form-field" appearance="outline">
-            <mat-label>Login Time
+            <mat-label>Issue Date
             </mat-label>
-            <input matInput formControlName="loginTime" maxlength="40" type="text">
-            <mat-error *ngIf="attendance.controls.loginTime.touched && attendance.controls.loginTime.invalid">
-                <span *ngIf="attendance.controls.loginTime.errors!.required">This field is mandatory.</span>
+            <input matInput formControlName="issueDate" maxlength="40" type="date">
+            <mat-error *ngIf="attendance.controls.issueDate.touched && attendance.controls.issueDate.invalid">
+                <span *ngIf="attendance.controls.issueDate.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field>
         <br>
         <mat-form-field class="form-field" appearance="outline">
-            <mat-label>Logout Time
+            <mat-label>Return Date
             </mat-label>
-            <input matInput formControlName="loginTime" maxlength="40" type="text">
-            <mat-error *ngIf="attendance.controls.logoutTime.touched && attendance.controls.logoutTime.invalid">
-                <span *ngIf="attendance.controls.logoutTime.errors!.required">This field is mandatory.</span>
+            <input matInput formControlName="returnDate" maxlength="40" type="date">
+            <mat-error *ngIf="attendance.controls.returnDate.touched && attendance.controls.returnDate.invalid">
+                <span *ngIf="attendance.controls.returnDate.errors!.required">This field is mandatory.</span>
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Number Of Book
+            </mat-label>
+            <input matInput formControlName="numberOfBook" maxlength="40" (keypress)="numbers($event)" type="number">
+            <mat-error *ngIf="attendance.controls.numberOfBook.touched && attendance.controls.numberOfBook.invalid">
+                <span *ngIf="attendance.controls.numberOfBook.errors!.required">This field is mandatory.</span>
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Librarian
+            </mat-label>
+            <input matInput formControlName="librarian" maxlength="40" (keypress)="char($event)" type="text">
+            <mat-error *ngIf="attendance.controls.librarian.touched && attendance.controls.librarian.invalid">
+                <span *ngIf="attendance.controls.librarian.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field>
         <br>

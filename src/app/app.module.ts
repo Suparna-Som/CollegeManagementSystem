@@ -19,6 +19,7 @@ import { AttendanceModule } from './modules/attendance/attendance.module';
 import { LibraryModule } from './modules/library/library.module';
 import { StudentModule } from './modules/student/student.module';
 
+import { HighchartsChartModule } from 'highcharts-angular';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +41,8 @@ import { StudentModule } from './modules/student/student.module';
     HttpClientModule,
     AttendanceModule,
     LibraryModule,
-    StudentModule
+    StudentModule,
+    HighchartsChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

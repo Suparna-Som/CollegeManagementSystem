@@ -38,9 +38,17 @@ export class AttendancePageComponent implements OnInit {
   deleteData(id) {
     this.attendannce.deleteData(id);
   }
-  editData(id) {
-    let a;
-    this.attendannce.updateData(id, a)
+  editData(id, editData) {
+
+    console.log(editData);
+    const dailogDef = this.dailog.open(AttendanceDailogComponent, {
+      data: editData
+    })
+    dailogDef.afterClosed().subscribe(res => {
+      console.log(res);
+      this.attendannce.updateData(id, res)
+    })
+
   }
   openDailog() {
     const dailogDef = this.dailog.open(AttendanceDailogComponent)

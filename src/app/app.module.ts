@@ -44,6 +44,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     StudentModule,
     HighchartsChartModule
   ],
+
   providers: [],
   bootstrap: [AppComponent]
 })

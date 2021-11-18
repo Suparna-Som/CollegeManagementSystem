@@ -6,6 +6,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AttendanceDailogComponent } from './attendance-dailog/attendance-dailog.component';
+import { NavBarComponent } from 'src/app/components/nav-bar/nav-bar.component';
 
 
 @NgModule({

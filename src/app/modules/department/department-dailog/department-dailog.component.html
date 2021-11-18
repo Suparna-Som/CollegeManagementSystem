@@ -49,7 +49,7 @@
                 <mat-icon>add</mat-icon> Add
             </button>
         </div>
-        <button mat-raised-button class="mb-3" color="primary" type="submit"
-            [mat-dialog-close]="departmentForm.value">Submit</button>
+        <button mat-raised-button class="mb-3" color="primary" type="submit" [mat-dialog-close]="departmentForm.value"
+            [disabled]="!departmentForm.valid">Submit</button>
     </form>
 </div>

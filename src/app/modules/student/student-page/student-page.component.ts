@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AttendanceService } from 'src/app/services/attendance.service';
+import { DataService } from 'src/app/services/data.service';
 import { AttendanceDailogComponent } from '../../attendance/attendance-dailog/attendance-dailog.component';
 import { StudentDailogComponent } from '../student-dailog/student-dailog.component';
 
@@ -17,8 +18,9 @@ export class StudentPageComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
   val = []
-  constructor(public dailog: MatDialog, private attendannce: AttendanceService) {
+  constructor(public dailog: MatDialog, private attendannce: AttendanceService, private data: DataService) {
     this.dailog.afterAllClosed
+    data.login = true
   }
   ngAfterViewInit(): void {
     this.call()

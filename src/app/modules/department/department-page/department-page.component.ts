@@ -3,6 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { DataService } from 'src/app/services/data.service';
 import { DepartmentService } from 'src/app/services/department.service';
 
 import { DiagnosticReporter } from 'typescript';
@@ -42,8 +43,9 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
     }
   ]);
   @ViewChild(MatSort) sort: MatSort;
-  constructor(public dailog: MatDialog, private deptService: DepartmentService) {
+  constructor(public dailog: MatDialog, private deptService: DepartmentService, private data: DataService) {
     this.dailog.afterAllClosed
+    data.login = true
   }
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;

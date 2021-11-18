@@ -45,7 +45,7 @@
             </mat-error>
         </mat-form-field>
         <br>
-        <button mat-raised-button class="mb-3" color="primary" type="submit"
+        <button mat-raised-button class="mb-3" color="primary" type="submit" [disabled]="!attendance.valid"
             [mat-dialog-close]="attendance.value">Submit</button>
     </form>
 </div>

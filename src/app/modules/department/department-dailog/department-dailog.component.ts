@@ -18,7 +18,7 @@ export class DepartmentDailogComponent implements OnInit {
     this.departmentForm = new FormGroup({
       'departmentName': new FormControl('', [Validators.required]),
       'departmentHead': new FormControl('', [Validators.required]),
-      'teachersAll':  new FormArray([new FormControl('', [Validators.required])])
+      'teachersAll': new FormArray([new FormControl('', [Validators.required])])
     })
   }
   get addteacher() {

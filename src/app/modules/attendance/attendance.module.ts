@@ -7,10 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AttendanceDailogComponent } from './attendance-dailog/attendance-dailog.component';
 import { NavBarComponent } from 'src/app/components/nav-bar/nav-bar.component';
+import { AttendanceFormComponent } from './attendance-form/attendance-form.component';
 
 
 @NgModule({
-  declarations: [AttendancePageComponent, AttendanceDailogComponent],
+  declarations: [AttendancePageComponent, AttendanceDailogComponent, AttendanceFormComponent],
   imports: [
     CommonModule,
     AttendanceRoutingModule,

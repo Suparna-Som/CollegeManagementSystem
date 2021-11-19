@@ -6,11 +6,12 @@ import { LibraryRoutingModule } from './library-routing.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { LibraryFormComponent } from './library-form/library-form.component';
 
 
 
 @NgModule({
-  declarations: [LibraryDailogComponent, LibraryPageComponent],
+  declarations: [LibraryDailogComponent, LibraryPageComponent, LibraryFormComponent],
   imports: [
     CommonModule,
     LibraryRoutingModule,

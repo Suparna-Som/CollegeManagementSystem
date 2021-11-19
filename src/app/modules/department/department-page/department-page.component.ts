@@ -22,7 +22,7 @@ export interface abc {
 })
 export class DepartmentPageComponent implements OnInit, AfterViewInit {
   dataCol = ['departmentId', 'departmentName', 'departmentHead', 'teachersAll', 'edit'];
-  dataSource ;
+  dataSource;
   val = []
   @ViewChild(MatSort) sort: MatSort;
   constructor(public dailog: MatDialog, private deptService: DepartmentService, private data: DataService) {
@@ -39,12 +39,12 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
   call() {
     this.dataSource.sort = this.sort;
   }
-  getData(){
-    this.dataSource=""
+  getData() {
+    this.dataSource = ""
     this.deptService.getMethod().subscribe(res => {
       this.val.push(res)
       this.dataSource = new MatTableDataSource(this.val[0]);
-      this.val=[]
+      this.val = []
       console.log(this.dataSource);
       this.call()
     });
@@ -56,45 +56,48 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
         this.getData()
       },
       error: error => {
-          console.error('There was an error!', error);
+        console.error('There was an error!', error);
       }
-  });
+    });
   }
   editData(id, editData) {
-    console.log("editddta",editData);
+    console.log("editddta", editData);
     const dailogDef = this.dailog.open(DepartmentDailogComponent, {
       data: editData
     })
     dailogDef.afterClosed().subscribe(res => {
       console.log(res);
-      this.deptService.updateData(id, res).subscribe({
-        next: data => {
-          console.log(data);
-          this.getData()
-        },
-        error: error => {
-            console.error('There was an error!', error);
-        }
-      })
-    })
-
-  }
-  data1;
-    openDailog() {
-      const dailogDef = this.dailog.open(DepartmentDailogComponent)
-      dailogDef.afterClosed().subscribe(res => {
-       let res1={departmentName: 'dasd', departmentHead: 'Dhiraj', teachersAll: 'ratan'}
-        console.log(JSON.stringify(res));
-        
-        this.deptService.createData(res).subscribe({
+      if (res != undefined) {
+        this.deptService.updateData(id, res).subscribe({
           next: data => {
             console.log(data);
             this.getData()
           },
           error: error => {
-              console.error('There was an error!', error);
+            console.error('There was an error!', error);
           }
+        })
+      }
+
+    })
+
+  }
+  data1;
+  openDailog() {
+    const dailogDef = this.dailog.open(DepartmentDailogComponent)
+    dailogDef.afterClosed().subscribe(res => {
+      let res1 = { departmentName: 'dasd', departmentHead: 'Dhiraj', teachersAll: 'ratan' }
+      console.log(JSON.stringify(res));
+
+      this.deptService.createData(res).subscribe({
+        next: data => {
+          console.log(data);
+          this.getData()
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        }
       })
-      })
-    }
+    })
+  }
 }

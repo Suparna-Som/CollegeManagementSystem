@@ -13,17 +13,41 @@ import { LibraryDailogComponent } from '../library-dailog/library-dailog.compone
   styleUrls: ['./library-page.component.scss']
 })
 export class LibraryPageComponent implements OnInit {
-  dataCol = ['srNo', 'studentId', 'studentName', 'bookName', 'issueDate', 'returnDate', 'numberOfBook', 'librarian', 'edit'];
-  //dataSource = new MatTableDataSource([{ "studentId": 1, "numberOfBook": 2, "studentName": "Vicky", "bookName": "Annie ", "issueDate": "2002-04-14", "returnDate": "2002-04-20", "librarian": "Supriya" }, { "studentId": 3, "numberOfBook": 1, "studentName": "Divya", "bookName": "R module", "issueDate": "2002-03-11", "returnDate": "2002-05-12", "librarian": "Jaya" }, { "studentId": 4, "numberOfBook": 0, "studentName": "Jhon", "bookName": "Java Coders", "issueDate": "2002-04-14", "returnDate": "2002-04-20", "librarian": "Dyan" }, { "studentId": 5, "numberOfBook": 2, "studentName": "Akash", "bookName": "JAVA", "issueDate": "2002-04-14", "returnDate": "2002-04-20", "librarian": "Supriya" }, { "studentId": 6, "numberOfBook": 2, "studentName": "Akshata", "bookName": "Heavy Coders", "issueDate": "2002-04-14", "returnDate": "2002-04-20", "librarian": "Priya" }, { "studentId": 7, "numberOfBook": 1, "studentName": "Shruti", "bookName": "C++", "issueDate": "2002-04-12", "returnDate": "2002-04-12", "librarian": "jiya" }]);
+  dataCol = ['delete', 'srNo', 'studentId', 'studentName', 'bookName', 'issueDate', 'returnDate', 'numberOfBook', 'librarian', 'edit'];
   val = []
+  allComplete: boolean = false;
   dataSource;
+  deletedSrNo = [];
   @ViewChild(MatSort) sort: MatSort;
   constructor(public dailog: MatDialog, private library: LibraryService, private data: DataService) {
     this.dailog.afterAllClosed;
     data.login = true;
   }
   ngAfterViewInit(): void {
-   // this.call()
+  }
+  setAll(completed: boolean) {
+    this.allComplete = completed;
+
+    if (completed == true) {
+      this.deletedSrNo = []
+      this.dataSource.filteredData.forEach(element => {
+        this.deletedSrNo.push(element.srNo);
+      });
+      console.log(this.deletedSrNo);
+      this.deletedSrNo = []
+    }
+  }
+  deleteSelected(completed: boolean, id) {
+    if (completed) {
+      this.deletedSrNo.push(id);
+      console.log(this.deletedSrNo);
+
+    } else {
+      let index = this.deletedSrNo.indexOf(id);
+      this.deletedSrNo.splice(index, 1);
+      console.log(this.deletedSrNo);
+
+    }
   }
   call() {
     this.dataSource.sort = this.sort;
@@ -31,14 +55,12 @@ export class LibraryPageComponent implements OnInit {
   ngOnInit(): void {
     this.getData()
   }
-  getData(){
-    this.dataSource=""
+  getData() {
+    this.dataSource = ""
     this.library.getMethod().subscribe(res => {
-      console.log(res);
       this.val.push(res)
       this.dataSource = new MatTableDataSource(this.val[0]);
-      this.val=[]
-      console.log(this.dataSource);
+      this.val = []
       this.call()
     });
   }
@@ -49,42 +71,48 @@ export class LibraryPageComponent implements OnInit {
         this.getData()
       },
       error: error => {
-          console.error('There was an error!', error);
+        console.error('There was an error!', error);
       }
-  });
+    });
   }
-
   editData(id, editData) {
-    console.log("editddta",editData);
     const dailogDef = this.dailog.open(LibraryDailogComponent, {
       data: editData
     })
     dailogDef.afterClosed().subscribe(res => {
-      console.log(res);
-      this.library.updateData(id, res).subscribe({
-        next: data => {
-          console.log("successfull",data);
-          this.getData()
-        },
-        error: error => {
-            console.error('There was an error!', error);
+      let a = []
+      if (res != undefined) {
+        if (res[0] != undefined) {
+          this.library.updateData(id, res).subscribe({
+            next: data => {
+              console.log("successfull", data);
+              this.getData()
+            },
+            error: error => {
+              console.error('There was an error!', error);
+            }
+          })
         }
-      })
+      }
     })
   }
   openDailog() {
     const dailogDef = this.dailog.open(LibraryDailogComponent)
     dailogDef.afterClosed().subscribe(res => {
-      console.log(res);
-      this.library.createData(res).subscribe({
-        next: data => {
-          console.log(data);
-          this.getData()
-        },
-        error: error => {
-            console.error('There was an error!', error);
+      let a = []
+      if (res != undefined) {
+        if (res[0] != undefined) {
+          this.library.createData(res).subscribe({
+            next: data => {
+              console.log(data);
+              this.getData()
+            },
+            error: error => {
+              console.error('There was an error!', error);
+            }
+          })
         }
-    })
+      }
     })
   }
 }

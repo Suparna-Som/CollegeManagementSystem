@@ -1,7 +1,7 @@
 <div class="container">
     <h2>Add Department</h2>
     <form [formGroup]="departmentForm">
-        
+
         <mat-form-field class="form-field" appearance="outline">
             <mat-label> Name
             </mat-label>
@@ -29,12 +29,12 @@
                         appearance="outline">
                         <mat-label>Name of teachers</mat-label>
                         <input matInput (keypress)="char($event)" [formControlName]="i">
-
                     </mat-form-field>
                     <button mat-icon-button type="button" class="delete-button" (click)="deleteRow(i)"
                         *ngIf="addteacher.length> 1">
                         <mat-icon>delete</mat-icon>
                     </button>
+
                 </div>
             </div>
             <button style="margin-bottom: 15px;" type="button" mat-raised-button (click)="add()">

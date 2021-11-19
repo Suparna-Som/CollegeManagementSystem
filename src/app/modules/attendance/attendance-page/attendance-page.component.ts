@@ -31,12 +31,12 @@ export class AttendancePageComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
   }
-  getData(){
-    this.dataSource=""
+  getData() {
+    this.dataSource = ""
     this.attendannce.getMethod().subscribe(res => {
       this.val.push(res)
       this.dataSource = new MatTableDataSource(this.val[0]);
-      this.val=[]
+      this.val = []
       console.log(this.dataSource);
       this.call()
     });
@@ -48,43 +48,53 @@ export class AttendancePageComponent implements OnInit {
         this.getData()
       },
       error: error => {
-          console.error('There was an error!', error);
+        console.error('There was an error!', error);
       }
-  });
+    });
   }
   editData(id, editData) {
 
-    console.log("editddta",editData);
+    console.log("editddta", editData);
     const dailogDef = this.dailog.open(AttendanceDailogComponent, {
       data: editData
     })
     dailogDef.afterClosed().subscribe(res => {
       console.log(res);
-      this.attendannce.updateData(id, res).subscribe({
-        next: data => {
-          console.log(data);
-          this.getData()
-        },
-        error: error => {
-            console.error('There was an error!', error);
+      if (res != undefined) {
+        if (res[0] != undefined) {
+          this.attendannce.updateData(id, res[0]).subscribe({
+            next: data => {
+              console.log(data);
+              this.getData()
+            },
+            error: error => {
+              console.error('There was an error!', error);
+            }
+          })
         }
-      })
+      }
     })
 
   }
-    openDailog() {
-      const dailogDef = this.dailog.open(AttendanceDailogComponent)
-      dailogDef.afterClosed().subscribe(res => {
-        console.log(res);
-        this.attendannce.createData(res).subscribe({
-          next: data => {
-            console.log(data);
-            this.getData()
-          },
-          error: error => {
+  openDailog() {
+    const dailogDef = this.dailog.open(AttendanceDailogComponent)
+    dailogDef.afterClosed().subscribe(res => {
+      let a = []
+      if (res != undefined) {
+        if (res[0] != undefined) {
+          this.attendannce.createData(res).subscribe({
+            next: data => {
+              console.log(data);
+              this.getData()
+            },
+            error: error => {
               console.error('There was an error!', error);
-          }
-      })
-      })
-    }
+            }
+          })
+        }
+      }
+
+
+    })
+  }
 }

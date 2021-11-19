@@ -1,4 +1,5 @@
 <button mat-raised-button color="primary" class="float-right mt-2 mr-5 " (click)="openDailog()">Add new</button>
+<p>{{data1}}</p>
 <mat-card class="card">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
         <ng-container matColumnDef="departmentId">
@@ -24,11 +25,11 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="editData(element.studentId)">
+                    <button mat-menu-item (click)="editData(element.departmentId)">
                         <mat-icon>edit</mat-icon>
                         <span>Edit</span>
                     </button>
-                    <button mat-menu-item (click)="deleteData(element.studentId)">
+                    <button mat-menu-item (click)="deleteData(element.departmentId)">
                         <mat-icon>delete</mat-icon>
                         <span>Delete</span>
                     </button>

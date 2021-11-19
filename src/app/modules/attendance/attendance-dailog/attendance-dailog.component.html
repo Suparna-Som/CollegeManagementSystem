@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container1">
     <h2></h2>
     <form [formGroup]="attendance">
         <mat-form-field class="form-field" appearance="outline">
@@ -9,7 +9,7 @@
             <mat-error *ngIf="attendance.controls.studentId.touched && attendance.controls.studentId.invalid">
                 <span *ngIf="attendance.controls.studentId.errors!.required">This field is mandatory.</span>
             </mat-error>
-        </mat-form-field><br>
+        </mat-form-field>
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>Student Name
             </mat-label>
@@ -19,27 +19,26 @@
                 <span *ngIf="attendance.controls.studentName.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field>
-        <br>
+        
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>Department Name
             </mat-label>
-            <input matInput formControlName="departmentName" [(ngModel)]="editData.departmentName"
+            <input matInput formControlName="department" [(ngModel)]="editData.department"
                 (keypress)="char($event)" maxlength="40" type="text">
-            <mat-error *ngIf="attendance.controls.departmentName.touched && attendance.controls.departmentName.invalid">
-                <span *ngIf="attendance.controls.departmentName.errors!.required">This field is mandatory.</span>
+            <mat-error *ngIf="attendance.controls.department.touched && attendance.controls.department.invalid">
+                <span *ngIf="attendance.controls.department.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field>
-        <br>
+       
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>Login Time
-            </mat-label>
-            <input matInput formControlName="loginTime" maxlength="40" [(ngModel)]="editData.loginTime"
-                type="datetime-local">
+            </mat-label>      
+                <input matInput  formControlName="loginTime" type="datetime-local"  min="2021-11-19T08:30" max="2021-11-20T16:30" [(ngModel)]="editData.loginTime" >
             <mat-error *ngIf="attendance.controls.loginTime.touched && attendance.controls.loginTime.invalid">
                 <span *ngIf="attendance.controls.loginTime.errors!.required">This field is mandatory.</span>
             </mat-error>
         </mat-form-field>
-        <br>
+       
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>Logout Time
             </mat-label>
@@ -50,7 +49,10 @@
             </mat-error>
         </mat-form-field>
         <br>
-        <button mat-raised-button class="mb-3" color="primary" type="submit" [disabled]="!attendance.valid"
+        <button style="margin-bottom: 15px;" type="button" mat-raised-button >
+            <mat-icon>add</mat-icon> Add
+        </button><br>
+        <button mat-raised-button class=" mb-3" color="primary" type="submit" [disabled]="!attendance.valid"
             [mat-dialog-close]="attendance.value">Submit</button>
     </form>
 </div>

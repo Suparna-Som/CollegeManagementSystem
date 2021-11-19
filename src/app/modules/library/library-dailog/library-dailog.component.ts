@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InputService } from 'src/app/services/input.service';
 
 @Component({
@@ -9,10 +10,36 @@ import { InputService } from 'src/app/services/input.service';
 })
 export class LibraryDailogComponent implements OnInit {
   attendance !: FormGroup;
-  constructor(private input: InputService) { }
-
+  constructor(private input: InputService,@Inject(MAT_DIALOG_DATA) public data: any) { }
+  editData={
+      studentId: '',
+      studentName: '',
+      bookName: '',
+      issueDate: '',
+      returnDate: '',
+      numberOfBook: '',
+      librarian: '',
+  }
   ngOnInit(): void {
-    this.validator();
+    if (this.data != null) {
+      this.editData = this.data
+      console.log(this.editData);
+      this.validatorForData();
+    }else{
+      this.validator();
+    }
+  }
+  validatorForData() {
+    this.attendance = new FormGroup({
+      'studentId': new FormControl('', [Validators.required]),
+      'studentName': new FormControl('', [Validators.required]),
+      'bookName': new FormControl('', [Validators.required]),
+      'issueDate': new FormControl('', [Validators.required]),
+      'returnDate': new FormControl('', [Validators.required]),
+      'numberOfBook': new FormControl('', [Validators.required]),
+      'librarian': new FormControl('', [Validators.required]),
+      'srNo': new FormControl(this.data.srNo)
+    })
   }
   validator() {
     this.attendance = new FormGroup({

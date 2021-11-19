@@ -13,28 +13,41 @@ export class AttendanceDailogComponent implements OnInit {
   editData = {
     studentId: "",
     studentName: "",
-    departmentName: "",
+    department: "",
     loginTime: "",
     logoutTime: "",
   };
   constructor(private input: InputService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
-    this.validator();
+
     if (this.data != null) {
       this.editData = this.data
       console.log(this.editData);
-
+      this.validatorForData();
+    } else {
+      this.validator();
     }
 
+  }
+  validatorForData() {
+    this.attendance = new FormGroup({
+      'studentId': new FormControl('', [Validators.required]),
+      'studentName': new FormControl('', [Validators.required]),
+      'department': new FormControl('', [Validators.required]),
+      'loginTime': new FormControl('', [Validators.required]),
+      'logoutTime': new FormControl('',),
+      'srNo': new FormControl(this.data.srNo)
+    })
   }
   validator() {
     this.attendance = new FormGroup({
       'studentId': new FormControl('', [Validators.required]),
       'studentName': new FormControl('', [Validators.required]),
-      'departmentName': new FormControl('', [Validators.required]),
+      'department': new FormControl('', [Validators.required]),
       'loginTime': new FormControl('', [Validators.required]),
-      'logoutTime': new FormControl('', [Validators.required]),
+      'logoutTime': new FormControl('',),
+
     })
   }
   char(event: { keyCode: number; preventDefault: () => void; }) {

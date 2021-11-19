@@ -5,19 +5,22 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AttendanceService {
-  url = 'jdbc:mysql://localhost:3306/phpmyadmin';
+  url = 'http://localhost:8080/attendence';
+  editUrl = 'http://localhost:8080/attendence/update';
+  deleteUrl='http://localhost:8080/attendence/delete?srNo=';
+  insertUrl ='http://localhost:8080/attendence/insert';
   data;
   constructor(private http: HttpClient) { }
   getMethod() {
     return this.http.get(this.url);
   }
   createData(data) {
-    return this.http.post(this.url, data)
+    return this.http.post(this.insertUrl, data)
   }
   updateData(id, data) {
-    return this.http.put(this.url + id, data)
+    return this.http.put(this.editUrl, data)
   }
   deleteData(id) {
-    return this.http.delete(this.url + id)
+    return this.http.delete(this.deleteUrl + id)
   }
 }

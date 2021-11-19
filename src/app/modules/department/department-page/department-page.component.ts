@@ -22,47 +22,79 @@ export interface abc {
 })
 export class DepartmentPageComponent implements OnInit, AfterViewInit {
   dataCol = ['departmentId', 'departmentName', 'departmentHead', 'teachersAll', 'edit'];
-  dataSource = new MatTableDataSource([
-    {
-      "departmentId": 1,
-      "departmentName": "Computer",
-      "departmentHead": "dharmishtha",
-      "teachersAll": "dharmishtha"
-    },
-    {
-      "departmentId": 2,
-      "departmentName": "computer",
-      "departmentHead": "parthvi",
-      "teachersAll": "teachers"
-    },
-    {
-      "departmentId": 3,
-      "departmentName": "chemical",
-      "departmentHead": "roshan",
-      "teachersAll": "roshan"
-    }
-  ]);
+  dataSource ;
+  val = []
   @ViewChild(MatSort) sort: MatSort;
   constructor(public dailog: MatDialog, private deptService: DepartmentService, private data: DataService) {
     this.dailog.afterAllClosed
     data.login = true
   }
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
+    //this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
-    // this.deptService.getMethod().subscribe(res => {
-    //   console.log(res);
-    //   this.dataSource = res;
-    // });
+    this.getData();
   }
-  openDailog() {
-    const dailogDef = this.dailog.open(DepartmentDailogComponent)
+  call() {
+    this.dataSource.sort = this.sort;
+  }
+  getData(){
+    this.dataSource=""
+    this.deptService.getMethod().subscribe(res => {
+      this.val.push(res)
+      this.dataSource = new MatTableDataSource(this.val[0]);
+      this.val=[]
+      console.log(this.dataSource);
+      this.call()
+    });
+  }
+  deleteData(id) {
+    this.deptService.deleteData(id).subscribe({
+      next: data => {
+        console.log(data);
+        this.getData()
+      },
+      error: error => {
+          console.error('There was an error!', error);
+      }
+  });
+  }
+  editData(id, editData) {
+    console.log("editddta",editData);
+    const dailogDef = this.dailog.open(DepartmentDailogComponent, {
+      data: editData
+    })
     dailogDef.afterClosed().subscribe(res => {
       console.log(res);
-      //this.dataSource.push(res)
-      console.log(this.deptService);
+      this.deptService.updateData(id, res).subscribe({
+        next: data => {
+          console.log(data);
+          this.getData()
+        },
+        error: error => {
+            console.error('There was an error!', error);
+        }
+      })
     })
+
   }
+  data1;
+    openDailog() {
+      const dailogDef = this.dailog.open(DepartmentDailogComponent)
+      dailogDef.afterClosed().subscribe(res => {
+       let res1={departmentName: 'dasd', departmentHead: 'Dhiraj', teachersAll: 'ratan'}
+        console.log(JSON.stringify(res));
+        
+        this.deptService.createData(res).subscribe({
+          next: data => {
+            console.log(data);
+            this.getData()
+          },
+          error: error => {
+              console.error('There was an error!', error);
+          }
+      })
+      })
+    }
 }

@@ -1,15 +1,7 @@
 <div class="container">
     <h2>Add Department</h2>
     <form [formGroup]="departmentForm">
-        <mat-form-field class="form-field" appearance="outline">
-            <mat-label> ID
-            </mat-label>
-            <input matInput formControlName="departmentId" (keypress)="numbers($event)" maxlength="40" type="number">
-            <mat-error
-                *ngIf="departmentForm.controls.departmentId.touched && departmentForm.controls.departmentId.invalid">
-                <span *ngIf="departmentForm.controls.departmentId.errors!.required">This field is mandatory.</span>
-            </mat-error>
-        </mat-form-field><br>
+        
         <mat-form-field class="form-field" appearance="outline">
             <mat-label> Name
             </mat-label>

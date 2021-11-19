@@ -4,7 +4,7 @@
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>Studetn ID
             </mat-label>
-            <input matInput type="number" formControlName="studentId" (keypress)="numbers($event)" maxlength="40">
+            <input matInput type="number" formControlName="studentId" [(ngModel)]="editData.studentId" (keypress)="numbers($event)" maxlength="40">
             <mat-error *ngIf="attendance.controls.studentId.touched && attendance.controls.studentId.invalid">
                 <span *ngIf="attendance.controls.studentId.errors!.required">This field is mandatory.</span>
             </mat-error>
@@ -12,7 +12,7 @@
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>Student Name
             </mat-label>
-            <input matInput formControlName="studentName" maxlength="40" (keypress)="char($event)" type="text">
+            <input matInput formControlName="studentName" [(ngModel)]="editData.studentName" maxlength="40"  (keypress)="char($event)" type="text">
             <mat-error *ngIf="attendance.controls.studentName.touched && attendance.controls.studentName.invalid">
                 <span *ngIf="attendance.controls.studentName.errors!.required">This field is mandatory.</span>
             </mat-error>
@@ -21,7 +21,7 @@
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>Department Name
             </mat-label>
-            <input matInput formControlName="departmentName" maxlength="40" (keypress)="char($event)" type="text">
+            <input matInput formControlName="departmentName" [(ngModel)]="editData.departmentName" maxlength="40" (keypress)="char($event)" type="text">
             <mat-error *ngIf="attendance.controls.departmentName.touched && attendance.controls.departmentName.invalid">
                 <span *ngIf="attendance.controls.departmentName.errors!.required">This field is mandatory.</span>
             </mat-error>
@@ -30,7 +30,7 @@
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>Student Mobile No
             </mat-label>
-            <input matInput formControlName="studentMobileNo" maxlength="40" (keypress)="numbers($event)" type="number">
+            <input matInput formControlName="studentMobileNo" [(ngModel)]="editData.studentMobileNo" maxlength="40" (keypress)="numbers($event)" type="number">
             <mat-error
                 *ngIf="attendance.controls.studentMobileNo.touched && attendance.controls.studentMobileNo.invalid">
                 <span *ngIf="attendance.controls.studentMobileNo.errors!.required">This field is mandatory.</span>
@@ -40,7 +40,7 @@
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>Student Addmission Date
             </mat-label>
-            <input matInput formControlName="studentAddmissionDate" maxlength="40" type="date">
+            <input matInput formControlName="studentAddmissionDate" [(ngModel)]="editData.studentAddmissionDate" maxlength="40" type="date">
             <mat-error
                 *ngIf="attendance.controls.studentAddmissionDate.touched && attendance.controls.studentAddmissionDate.invalid">
                 <span *ngIf="attendance.controls.studentAddmissionDate.errors!.required">This field is mandatory.</span>

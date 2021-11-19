@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InputService } from 'src/app/services/input.service';
 
 @Component({
@@ -9,10 +10,31 @@ import { InputService } from 'src/app/services/input.service';
 })
 export class StudentDailogComponent implements OnInit {
   attendance !: FormGroup;
-  constructor(private input: InputService) { }
-
+  constructor(private input: InputService, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  editData={
+    studentId: '',
+      studentName: '',
+      departmentName: '',
+      studentMobileNo: '',
+      studentAddmissionDate: ''
+  }
   ngOnInit(): void {
-    this.validator();
+    if (this.data != null) {
+      this.editData = this.data
+      console.log(this.editData);
+      this.validatorForData();
+    }else{
+      this.validator();
+    }
+  }
+  validatorForData() {
+    this.attendance = new FormGroup({
+      'studentId': new FormControl('', [Validators.required]),
+      'studentName': new FormControl('', [Validators.required]),
+      'departmentName': new FormControl('', [Validators.required]),
+      'studentMobileNo': new FormControl('', [Validators.required]),
+      'studentAddmissionDate': new FormControl('', [Validators.required]),
+    })
   }
   validator() {
     this.attendance = new FormGroup({

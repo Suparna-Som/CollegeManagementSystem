@@ -14,9 +14,11 @@ import { StudentDailogComponent } from '../student-dailog/student-dailog.compone
   styleUrls: ['./student-page.component.scss']
 })
 export class StudentPageComponent implements OnInit {
-  dataCol = ['studentId', 'studentName', 'departmentName', 'studentMobileNo', 'studentAddmissionDate', 'edit'];
+  dataCol = ["delete", 'studentId', 'studentName', 'departmentName', 'studentMobileNo', 'studentAddmissionDate', 'edit'];
   //dataSource = new MatTableDataSource([{ "studentId": 1, "studentName": "tiya", "departmentName": "Sci", "studentMobileNo": "23568709", "studentAddmissionDate": "2020-02-09" }, { "studentId": 2, "studentName": "trisha", "departmentName": "cse", "studentMobileNo": "342654562", "studentAddmissionDate": "2019-08-07" }, { "studentId": 3, "studentName": "dhf", "departmentName": "bsd", "studentMobileNo": "4365246", "studentAddmissionDate": "2010-08-06" }, { "studentId": 4, "studentName": "fdgf", "departmentName": "dhfj", "studentMobileNo": "543656", "studentAddmissionDate": "2019-09-08" }]);
   dataSource;
+  allComplete: boolean = false;
+  deletedSrNo = [];
   @ViewChild(MatSort) sort: MatSort;
   val = []
   constructor(public dailog: MatDialog, private student: ServiceService, private data: DataService) {
@@ -24,7 +26,39 @@ export class StudentPageComponent implements OnInit {
     data.login = true
   }
   ngAfterViewInit(): void {
-    
+  }
+  setAll(completed: boolean) {
+    this.allComplete = completed;
+
+    if (completed == true) {
+      this.deletedSrNo = []
+      this.dataSource.filteredData.forEach(element => {
+        this.deletedSrNo.push(element.studentId);
+      });
+      console.log(this.deletedSrNo);
+
+    }
+  }
+  deleteSelected(completed: boolean, id) {
+    if (completed) {
+      this.deletedSrNo.push(id);
+      console.log(this.deletedSrNo);
+    } else {
+      let index = this.deletedSrNo.indexOf(id);
+      this.deletedSrNo.splice(index, 1);
+      console.log(this.deletedSrNo);
+    }
+  }
+  deleteBatch() {
+    this.student.deleteBatchData(this.deletedSrNo).subscribe({
+      next: data => {
+        console.log(data);
+        this.getData()
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      }
+    })
   }
   call() {
     this.dataSource.sort = this.sort;
@@ -32,12 +66,12 @@ export class StudentPageComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
   }
-  getData(){
-    this.dataSource=""
+  getData() {
+    this.dataSource = ""
     this.student.getMethod().subscribe(res => {
       this.val.push(res)
       this.dataSource = new MatTableDataSource(this.val[0]);
-      this.val=[]
+      this.val = []
       console.log(this.dataSource);
       this.call()
     });
@@ -49,13 +83,13 @@ export class StudentPageComponent implements OnInit {
         this.getData()
       },
       error: error => {
-          console.error('There was an error!', error);
+        console.error('There was an error!', error);
       }
-  });
+    });
   }
   editData(id, editData) {
 
-    console.log("editddta",editData);
+    console.log("editddta", editData);
     const dailogDef = this.dailog.open(StudentDailogComponent, {
       data: editData
     })
@@ -67,25 +101,25 @@ export class StudentPageComponent implements OnInit {
           this.getData()
         },
         error: error => {
-            console.error('There was an error!', error);
+          console.error('There was an error!', error);
         }
       })
     })
 
   }
-    openDailog() {
-      const dailogDef = this.dailog.open(StudentDailogComponent)
-      dailogDef.afterClosed().subscribe(res => {
-        console.log(res);
-        this.student.createData(res).subscribe({
-          next: data => {
-            console.log("data Enter= "+data);
-            this.getData()
-          },
-          error: error => {
-              console.error('There was an error!', error);
-          }
+  openDailog() {
+    const dailogDef = this.dailog.open(StudentDailogComponent)
+    dailogDef.afterClosed().subscribe(res => {
+      console.log(res);
+      this.student.createData(res).subscribe({
+        next: data => {
+          console.log("data Enter= " + data);
+          this.getData()
+        },
+        error: error => {
+          console.error('There was an error!', error);
+        }
       })
-      })
-    }
+    })
+  }
 }

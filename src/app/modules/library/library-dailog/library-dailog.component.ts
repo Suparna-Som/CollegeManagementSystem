@@ -27,13 +27,18 @@ export class LibraryDailogComponent implements OnInit {
     if (this.data != null) {
       this.editData = this.data
       console.log(this.editData);
-
     }
   }
-
+  arr = [];
+  close() {
+    let x = this.arr.length
+    this.addedData.push(this.arr[x - 1]);
+    console.log(this.addedData);
+  }
   getChildData(event) {
     console.log(event);
-    this.addedData.push(event)
+    this.arr.push(event)
+
   }
   deleteRow(i) {
     console.log(i);
@@ -43,6 +48,9 @@ export class LibraryDailogComponent implements OnInit {
   addForm() {
     this.arrCounts.push(this.counts);
     this.counts += 1;
+    let x = this.arr.length
+    this.addedData.push(this.arr[x - 1]);
+    this.arr = []
   }
   char(event: { keyCode: number; preventDefault: () => void; }) {
     this.input.characters(event)

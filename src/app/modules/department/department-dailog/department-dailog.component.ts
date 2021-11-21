@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InputService } from 'src/app/services/input.service';
 
 @Component({
@@ -8,32 +9,47 @@ import { InputService } from 'src/app/services/input.service';
   styleUrls: ['./department-dailog.component.scss']
 })
 export class DepartmentDailogComponent implements OnInit {
-  departmentForm !: FormGroup;
-  constructor(private input: InputService) { }
+
+  counts = 0;
+  arrCounts: number[] = [1];
+  addedData = [];
+  editData = {
+    departmentId: '',
+    departmentName: '',
+    departmentHead: '',
+    teachersAll: ''
+  };
+  constructor(private input: InputService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
-    this.validator();
+    if (this.data != null) {
+      this.editData = this.data
+      console.log(this.editData);
+    }
   }
-  validator() {
-    this.departmentForm = new FormGroup({
-      'departmentName': new FormControl('', [Validators.required]),
-      'departmentHead': new FormControl('', [Validators.required]),
-      'teachersAll': new FormArray([new FormControl('', [Validators.required])])
-    })
+  arr = [];
+  getChildData(event) {
+    console.log(event);
+    this.arr.push(event)
+
+    //  this.addedData.push(event)
   }
-  get addteacher() {
-    return (<FormArray>this.departmentForm.get('teachersAll')).controls;
+  close() {
+    let x = this.arr.length
+    this.addedData.push(this.arr[x - 1]);
+    console.log(this.addedData);
+
   }
-  deleteRow(index: number) {
-    (<FormArray>this.departmentForm.get('teachersAll')).removeAt(index);
+  deleteRow(i) {
+    console.log(i);
+    this.arrCounts.splice(i, 1);
+    console.log(this.arrCounts);
   }
-  add() {
-    (<FormArray>this.departmentForm.get('teachersAll')).push(new FormControl('', Validators.required));
-  }
-  char(event: { keyCode: number; preventDefault: () => void; }) {
-    this.input.characters(event)
-  }
-  numbers(event: { keyCode: number; preventDefault: () => void; }) {
-    this.input.number(event);
+  addForm() {
+    this.arrCounts.push(this.counts);
+    this.counts += 1;
+    let x = this.arr.length
+    this.addedData.push(this.arr[x - 1]);
+    this.arr = []
   }
 }

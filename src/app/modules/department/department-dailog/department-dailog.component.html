@@ -1,47 +1,22 @@
-<div class="container">
-    <h2>Add Department</h2>
-    <form [formGroup]="departmentForm">
+<mat-dialog-content>
+    <div class="container1">
 
-        <mat-form-field class="form-field" appearance="outline">
-            <mat-label> Name
-            </mat-label>
-            <input matInput formControlName="departmentName" (keypress)="char($event)" maxlength="40" type="text">
-            <mat-error
-                *ngIf="departmentForm.controls.departmentName.touched && departmentForm.controls.departmentName.invalid">
-                <span *ngIf="departmentForm.controls.departmentName.errors!.required">This field is mandatory.</span>
-            </mat-error>
-        </mat-form-field>
-        <br>
-        <mat-form-field class="form-field" appearance="outline">
-            <mat-label> Department Head
-            </mat-label>
-            <input matInput formControlName="departmentHead" (keypress)="char($event)" maxlength="40" type="text">
-            <mat-error
-                *ngIf="departmentForm.controls.departmentHead.touched && departmentForm.controls.departmentHead.invalid">
-                <span *ngIf="departmentForm.controls.departmentHead.errors!.required">This field is mandatory.</span>
-            </mat-error>
-        </mat-form-field>
-        <div class="teacher">
-            <label>Add teachers :</label>
-            <div class="form-array">
-                <div formArrayName="teachersAll" *ngFor="let teachersAll of addteacher; let i=index">
-                    <mat-form-field class="form-field" [ngClass]="{ 'form-field-teacher':addteacher.length > 1}"
-                        appearance="outline">
-                        <mat-label>Name of teachers</mat-label>
-                        <input matInput (keypress)="char($event)" [formControlName]="i">
-                    </mat-form-field>
-                    <button mat-icon-button type="button" class="delete-button" (click)="deleteRow(i)"
-                        *ngIf="addteacher.length> 1">
-                        <mat-icon>delete</mat-icon>
-                    </button>
+        <div *ngFor="let count of arrCounts; let i=index">
+            <app-department-form *ngIf="data!=null" [data]="editData" (child)="getChildData($event)">
+            </app-department-form>
 
-                </div>
-            </div>
-            <button style="margin-bottom: 15px;" type="button" mat-raised-button (click)="add()">
-                <mat-icon>add</mat-icon> Add
+            <app-department-form *ngIf="data==null" (child)="getChildData($event)"></app-department-form>
+            <button mat-icon-button type="button" class="delete-button" *ngIf="arrCounts.length> 1"
+                (click)="deleteRow(i)">
+                <mat-icon>delete</mat-icon>
             </button>
+
         </div>
-        <button mat-raised-button class="mb-3" color="primary" type="submit" [mat-dialog-close]="departmentForm.value"
-            [disabled]="!departmentForm.valid">Submit</button>
-    </form>
-</div>
+        <button style="margin-bottom: 15px;" *ngIf="data==null" color="warn" type="button" (click)="addForm()"
+            mat-raised-button>
+            <mat-icon>add</mat-icon> Add
+        </button><br>
+        <button mat-raised-button class=" mb-3" color="primary" [mat-dialog-close]="addedData" type="submit"
+            (click)="close()">Submit</button>
+    </div>
+</mat-dialog-content>

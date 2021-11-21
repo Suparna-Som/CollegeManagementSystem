@@ -10,11 +10,14 @@ export class AttendanceService {
   deleteUrl = 'http://localhost:8080/attendence/delete?srNo=';
   insertUrl = 'http://localhost:8080/attendence/insert';
   batchUrl = "http://localhost:8080/attendence/insertBatch";
+  deleteBatch = "http://localhost:8080/attendence/deleteBatch";
   data;
   constructor(private http: HttpClient) { }
   getMethod() {
     return this.http.get(this.url);
   }
+
+
   createData(data) {
     return this.http.post(this.batchUrl, data)
   }
@@ -23,5 +26,8 @@ export class AttendanceService {
   }
   deleteData(id) {
     return this.http.delete(this.deleteUrl + id)
+  }
+  deleteBatchData(id) {
+    return this.http.put(this.deleteBatch, id)
   }
 }

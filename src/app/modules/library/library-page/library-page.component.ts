@@ -13,7 +13,7 @@ import { LibraryDailogComponent } from '../library-dailog/library-dailog.compone
   styleUrls: ['./library-page.component.scss']
 })
 export class LibraryPageComponent implements OnInit {
-  dataCol = ['delete', 'srNo', 'studentId', 'studentName', 'bookName', 'issueDate', 'returnDate', 'numberOfBook', 'librarian', 'edit'];
+  dataCol = ['delete', 'srNo', 'studentId', 'studentName', 'bookName', 'issueDate', "Status", 'returnDate', 'numberOfBook', 'librarian', 'edit'];
   val = []
   allComplete: boolean = false;
   dataSource;
@@ -34,7 +34,7 @@ export class LibraryPageComponent implements OnInit {
         this.deletedSrNo.push(element.srNo);
       });
       console.log(this.deletedSrNo);
-      this.deletedSrNo = []
+
     }
   }
   deleteSelected(completed: boolean, id) {
@@ -48,6 +48,17 @@ export class LibraryPageComponent implements OnInit {
       console.log(this.deletedSrNo);
 
     }
+  }
+  deleteBatch() {
+    this.library.deleteBatchData(this.deletedSrNo).subscribe({
+      next: data => {
+        console.log(data);
+        this.getData()
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      }
+    })
   }
   call() {
     this.dataSource.sort = this.sort;
@@ -83,7 +94,7 @@ export class LibraryPageComponent implements OnInit {
       let a = []
       if (res != undefined) {
         if (res[0] != undefined) {
-          this.library.updateData(id, res).subscribe({
+          this.library.updateData(id, res[0]).subscribe({
             next: data => {
               console.log("successfull", data);
               this.getData()
@@ -98,11 +109,13 @@ export class LibraryPageComponent implements OnInit {
   }
   openDailog() {
     const dailogDef = this.dailog.open(LibraryDailogComponent)
-    dailogDef.afterClosed().subscribe(res => {
+    dailogDef.afterClosed().subscribe(res1 => {
       let a = []
-      if (res != undefined) {
-        if (res[0] != undefined) {
-          this.library.createData(res).subscribe({
+      console.log(res1);
+
+      if (res1 != undefined) {
+        if (res1[0] != undefined) {
+          this.library.createData(res1).subscribe({
             next: data => {
               console.log(data);
               this.getData()

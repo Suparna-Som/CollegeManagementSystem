@@ -9,41 +9,36 @@ import { InputService } from 'src/app/services/input.service';
   styleUrls: ['./student-dailog.component.scss']
 })
 export class StudentDailogComponent implements OnInit {
-  attendance !: FormGroup;
+  editData = {
+    studentId: "",
+    studentName: "",
+    department: "",
+    loginTime: "",
+    logoutTime: "",
+  };
+  counts = 0;
+  arrCounts: number[] = [1];
+  addedData = [];
   constructor(private input: InputService, @Inject(MAT_DIALOG_DATA) public data: any) { }
-  editData={
-    studentId: '',
-      studentName: '',
-      departmentName: '',
-      studentMobileNo: '',
-      studentAddmissionDate: ''
-  }
   ngOnInit(): void {
     if (this.data != null) {
       this.editData = this.data
       console.log(this.editData);
-      this.validatorForData();
-    }else{
-      this.validator();
     }
   }
-  validatorForData() {
-    this.attendance = new FormGroup({
-      'studentId': new FormControl('', [Validators.required]),
-      'studentName': new FormControl('', [Validators.required]),
-      'departmentName': new FormControl('', [Validators.required]),
-      'studentMobileNo': new FormControl('', [Validators.required]),
-      'studentAddmissionDate': new FormControl('', [Validators.required]),
-    })
+
+  getChildData(event) {
+    console.log(event);
+    this.addedData.push(event)
   }
-  validator() {
-    this.attendance = new FormGroup({
-      'studentId': new FormControl('', [Validators.required]),
-      'studentName': new FormControl('', [Validators.required]),
-      'departmentName': new FormControl('', [Validators.required]),
-      'studentMobileNo': new FormControl('', [Validators.required]),
-      'studentAddmissionDate': new FormControl('', [Validators.required]),
-    })
+  deleteRow(i) {
+    console.log(i);
+    this.arrCounts.splice(i, 1);
+    console.log(this.arrCounts);
+  }
+  addForm() {
+    this.arrCounts.push(this.counts);
+    this.counts += 1;
   }
   char(event: { keyCode: number; preventDefault: () => void; }) {
     this.input.characters(event)

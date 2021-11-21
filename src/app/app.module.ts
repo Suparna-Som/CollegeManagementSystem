@@ -20,6 +20,7 @@ import { LibraryModule } from './modules/library/library.module';
 import { StudentModule } from './modules/student/student.module';
 
 import { HighchartsChartModule } from 'highcharts-angular';
+import { AboutComponent } from './components/about/about.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     RegistrationComponent,
     HomeComponent,
     NavBarComponent,
+    AboutComponent,
 
   ],
   imports: [

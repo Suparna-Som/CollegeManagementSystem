@@ -15,7 +15,7 @@
         <button style="margin-bottom: 15px;" *ngIf="data==null" type="button" (click)="addForm()" mat-raised-button>
             <mat-icon>add</mat-icon> Add
         </button><br>
-        <button mat-raised-button class=" mb-3" color="primary" [mat-dialog-close]="addedData"
+        <button mat-raised-button class=" mb-3" color="primary" [mat-dialog-close]="addedData" (click)="close()"
             type="submit">Submit</button>
     </div>
 </mat-dialog-content>

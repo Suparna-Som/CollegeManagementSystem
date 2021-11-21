@@ -5,11 +5,12 @@ import { StudentDailogComponent } from './student-dailog/student-dailog.componen
 import { StudentRoutingModule } from './student-routing.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StudentFormComponent } from './student-form/student-form.component';
 
 
 
 @NgModule({
-  declarations: [StudentPageComponent, StudentDailogComponent],
+  declarations: [StudentPageComponent, StudentDailogComponent, StudentFormComponent],
   imports: [
     CommonModule,
     StudentRoutingModule,

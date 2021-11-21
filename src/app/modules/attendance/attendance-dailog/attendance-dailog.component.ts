@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InputService } from 'src/app/services/input.service';
 
 @Component({
@@ -28,36 +28,19 @@ export class AttendanceDailogComponent implements OnInit {
       console.log(this.editData);
     }
   }
-
-
+  arr = [];
   getChildData(event) {
     console.log(event);
-    this.addedData.push(event)
+    this.arr.push(event)
+
+    //  this.addedData.push(event)
   }
+  close() {
+    let x = this.arr.length
+    this.addedData.push(this.arr[x - 1]);
+    console.log(this.addedData);
 
-
-
-
-
-  // validatorForData() {
-  //   this.attendance = new FormGroup({
-  //     'studentId': new FormControl('', [Validators.required]),
-  //     'studentName': new FormControl('', [Validators.required]),
-  //     'department': new FormControl('', [Validators.required]),
-  //     'loginTime': new FormControl('', [Validators.required]),
-  //     'logoutTime': new FormControl('',),
-  //     'srNo': new FormControl(this.data.srNo)
-  //   })
-  // }
-  // validator() {
-  //   this.attendance = new FormGroup({
-  //     'studentId': new FormControl('', [Validators.required]),
-  //     'studentName': new FormControl('', [Validators.required]),
-  //     'department': new FormControl('', [Validators.required]),
-  //     'loginTime': new FormControl('', [Validators.required]),
-  //     'logoutTime': new FormControl('',),
-  //   })
-  // }
+  }
   deleteRow(i) {
     console.log(i);
     this.arrCounts.splice(i, 1);
@@ -66,6 +49,9 @@ export class AttendanceDailogComponent implements OnInit {
   addForm() {
     this.arrCounts.push(this.counts);
     this.counts += 1;
+    let x = this.arr.length
+    this.addedData.push(this.arr[x - 1]);
+    this.arr = []
   }
   char(event: { keyCode: number; preventDefault: () => void; }) {
     this.input.characters(event)

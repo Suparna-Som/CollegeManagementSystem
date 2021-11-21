@@ -9,6 +9,8 @@ export class DepartmentService {
   editUrl = 'http://localhost:8080/updateDepartment';
   deleteUrl='http://localhost:8080/deleteDepartment?deptId=';
   insertUrl ='http://localhost:8080/insertDepartment';
+  deleteBatch = "http://localhost:8080/attendence/deleteBatch";
+
   constructor(private http: HttpClient) { }
   getMethod() {
     return this.http.get(this.url);
@@ -21,5 +23,8 @@ export class DepartmentService {
   }
   deleteData(id) {
     return this.http.delete(this.deleteUrl + id)
+  }
+  deleteBatchData(id) {
+    return this.http.put(this.deleteBatch, id)
   }
 }

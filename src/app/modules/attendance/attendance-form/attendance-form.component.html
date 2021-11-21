@@ -31,8 +31,8 @@
     <mat-form-field class="form-field" appearance="outline">
         <mat-label>Login Time
         </mat-label>
-        <input matInput formControlName="loginTime" (change)="send()" type="datetime-local" min="2021-11-19T08:30"
-            max="2021-11-20T16:30" [(ngModel)]="editData.loginTime">
+        <input matInput formControlName="loginTime" (change)="send()" type="datetime-local" min="{{input.today}}"
+            max="{{input.today}}" [(ngModel)]="editData.loginTime">
         <mat-error *ngIf="attendance.controls.loginTime.touched && attendance.controls.loginTime.invalid">
             <span *ngIf="attendance.controls.loginTime.errors!.required">This field is mandatory.</span>
         </mat-error>
@@ -41,7 +41,8 @@
     <mat-form-field class="form-field" appearance="outline">
         <mat-label>Logout Time
         </mat-label>
-        <input matInput formControlName="logoutTime" (change)="send()" maxlength="40" [(ngModel)]="editData.logoutTime"
+        <input matInput formControlName="logoutTime" min="{{input.today}}"
+        max="{{input.today}}" (change)="send()" maxlength="40" [(ngModel)]="editData.logoutTime"
             type="datetime-local">
         <mat-error *ngIf="attendance.controls.logoutTime.touched && attendance.controls.logoutTime.invalid">
             <span *ngIf="attendance.controls.logoutTime.errors!.required">This field is mandatory.</span>

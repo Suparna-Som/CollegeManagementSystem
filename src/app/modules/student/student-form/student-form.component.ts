@@ -2,26 +2,23 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InputService } from 'src/app/services/input.service';
 
-
 @Component({
-  selector: 'app-attendance-form',
-  templateUrl: './attendance-form.component.html',
-  styleUrls: ['./attendance-form.component.scss']
+  selector: 'app-student-form',
+  templateUrl: './student-form.component.html',
+  styleUrls: ['./student-form.component.scss']
 })
-export class AttendanceFormComponent implements OnInit {
+export class StudentFormComponent implements OnInit {
   attendance !: FormGroup;
+  editData = {
+    studentId: '',
+    studentName: '',
+    departmentName: '',
+    studentMobileNo: '',
+    studentAddmissionDate: ''
+  }
   @Output() child = new EventEmitter()
   @Input() data;
-  editData = {
-    studentId: "",
-    studentName: "",
-    department: "",
-    loginTime: "",
-    logoutTime: "",
-  };
-  constructor(public input: InputService) {
-
-  }
+  constructor(public input: InputService) { }
 
   ngOnInit(): void {
     if (this.data != null) {
@@ -39,23 +36,22 @@ export class AttendanceFormComponent implements OnInit {
       this.child.emit(this.attendance.value)
     }
   }
-  validator() {
-    this.attendance = new FormGroup({
-      'studentId': new FormControl('', [Validators.required]),
-      'studentName': new FormControl('', [Validators.required]),
-      'department': new FormControl('', [Validators.required]),
-      'loginTime': new FormControl('', [Validators.required]),
-      'logoutTime': new FormControl('', ),
-    })
-  }
   validatorForData() {
     this.attendance = new FormGroup({
       'studentId': new FormControl('', [Validators.required]),
       'studentName': new FormControl('', [Validators.required]),
-      'department': new FormControl('', [Validators.required]),
-      'loginTime': new FormControl('', [Validators.required]),
-      'logoutTime': new FormControl('', [Validators.required]),
-      'srNo': new FormControl(this.data.srNo)
+      'departmentName': new FormControl('', [Validators.required]),
+      'studentMobileNo': new FormControl('', [Validators.required,Validators.minLength(10)]),
+      'studentAddmissionDate': new FormControl('', [Validators.required]),
+    })
+  }
+  validator() {
+    this.attendance = new FormGroup({
+      'studentId': new FormControl('', [Validators.required]),
+      'studentName': new FormControl('', [Validators.required]),
+      'departmentName': new FormControl('', [Validators.required]),
+      'studentMobileNo': new FormControl('', [Validators.required,Validators.minLength(10)]),
+      'studentAddmissionDate': new FormControl('', [Validators.required]),
     })
   }
   char(event: { keyCode: number; preventDefault: () => void; }) {
@@ -64,4 +60,5 @@ export class AttendanceFormComponent implements OnInit {
   numbers(event: { keyCode: number; preventDefault: () => void; }) {
     this.input.number(event);
   }
+
 }

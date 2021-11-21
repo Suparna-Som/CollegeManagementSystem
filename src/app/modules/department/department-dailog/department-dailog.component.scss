@@ -1,12 +1,10 @@
-.container{
-    height: 90vh;
-    width: 50vw;
+.container1{
+    height: auto;
+    width: 100%;
+    min-width: 75vw;
     float: left;
-    form{
-        margin-left: 10%;
-    }
+    overflow: true;
     .form-field{
-        width: 80%;
-        
+        margin-right: 5px;
     }
 }

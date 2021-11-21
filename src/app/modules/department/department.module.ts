@@ -5,12 +5,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DepartmentPageComponent } from './department-page/department-page.component';
 import { DepartmentRoutingModule } from './department-routing.module';
 import { DepartmentDailogComponent } from './department-dailog/department-dailog.component';
+import { DepartmentFormComponent } from './department-form/department-form.component';
 
 
 
 
 @NgModule({
-  declarations: [DepartmentPageComponent, DepartmentDailogComponent],
+  declarations: [DepartmentPageComponent, DepartmentDailogComponent, DepartmentFormComponent],
   imports: [
     CommonModule,
     MaterialModule,

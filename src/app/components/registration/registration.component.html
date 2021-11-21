@@ -7,9 +7,10 @@
             <mat-form-field class="form-field" appearance="outline">
                 <mat-label> Name
                 </mat-label>
-                <input matInput formControlName="name" maxlength="40" type="text">
-                <mat-error *ngIf="registrationForm.controls.name.touched && registrationForm.controls.name.invalid">
-                    <span *ngIf="registrationForm.controls.name.errors!.required">This field is mandatory.</span>
+                <input matInput formControlName="userName" maxlength="40" type="text">
+                <mat-error
+                    *ngIf="registrationForm.controls.userName.touched && registrationForm.controls.userName.invalid">
+                    <span *ngIf="registrationForm.controls.userName.errors!.required">This field is mandatory.</span>
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="form-field" appearance="outline">

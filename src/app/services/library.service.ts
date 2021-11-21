@@ -10,6 +10,7 @@ export class LibraryService {
   deleteUrl = 'http://localhost:8080/api/deleteLibraryDetails?srNo=';
   insertUrl = 'http://localhost:8080/api/storeLibraryDetails';
   batchInsertUrl = "http://localhost:8080/api/insertMultipleLibraryDetail";
+  deleteBatch = "http://localhost:8080/api/deleteLibraryDetailsBatch"
   constructor(private http: HttpClient) { }
   getMethod() {
     return this.http.get(this.url);
@@ -22,5 +23,8 @@ export class LibraryService {
   }
   deleteData(id) {
     return this.http.delete(this.deleteUrl + id)
+  }
+  deleteBatchData(id) {
+    return this.http.put(this.deleteBatch, id)
   }
 }

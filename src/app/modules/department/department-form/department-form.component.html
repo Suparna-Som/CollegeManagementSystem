@@ -1,0 +1,45 @@
+<form [formGroup]="departmentForm">
+
+    <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Name
+        </mat-label>
+        <input matInput formControlName="departmentName" (change)="send()" (keypress)="char($event)" maxlength="40"
+            type="text">
+        <mat-error
+            *ngIf="departmentForm.controls.departmentName.touched && departmentForm.controls.departmentName.invalid">
+            <span *ngIf="departmentForm.controls.departmentName.errors!.required">This field is mandatory.</span>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Department Head
+        </mat-label>
+        <input matInput formControlName="departmentHead" (change)="send()" (keypress)="char($event)" maxlength="40"
+            type="text">
+        <mat-error
+            *ngIf="departmentForm.controls.departmentHead.touched && departmentForm.controls.departmentHead.invalid">
+            <span *ngIf="departmentForm.controls.departmentHead.errors!.required">This field is mandatory.</span>
+        </mat-error>
+    </mat-form-field>
+    <div class="teacher">
+        <label>Add teachers :</label>
+        <div  class="form-array">
+            <ng-container formArrayName="teachersAll" *ngFor="let teachersAll of addteacher; let i=index">
+                <mat-form-field class="form-field" [ngClass]="{ 'form-field-teacher':addteacher.length > 1}"
+                    appearance="outline">
+                    <mat-label>Name of teachers</mat-label>
+                    <input matInput (keypress)="char($event)" (change)="send()" [formControlName]="i">
+                </mat-form-field>
+                <button mat-icon-button type="button" class="delete-button" (click)="deleteRow(i)"
+                    *ngIf="addteacher.length> 1">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </ng-container>
+            <button style="margin-bottom: 8px;" color="accent" type="button" mat-raised-button (click)="add()">
+                <mat-icon>add</mat-icon>Add Teacher's
+            </button>
+        </div>
+        
+    </div>
+
+</form>

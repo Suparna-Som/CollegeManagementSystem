@@ -1,5 +1,5 @@
 <form [formGroup]="attendance">
-    <mat-form-field class="form-field" appearance="outline">
+    <mat-form-field class="form-field" appearance="outline" *ngIf="data ==null">
         <mat-label> StudentId
         </mat-label>
         <input matInput formControlName="studentId" (change)="send()" maxlength="40" [(ngModel)]="editData.studentId"
@@ -8,7 +8,7 @@
             <span *ngIf="attendance.controls.studentId.errors!.required">This field is mandatory.</span>
         </mat-error>
     </mat-form-field>
-    <mat-form-field class="form-field" appearance="outline">
+    <mat-form-field class="form-field" appearance="outline" *ngIf="data ==null">
         <mat-label>Student Name
         </mat-label>
         <input matInput formControlName="studentName" (change)="send()" maxlength="40"
@@ -31,17 +31,25 @@
     <mat-form-field class="form-field" appearance="outline">
         <mat-label>Issue Date
         </mat-label>
-        <input matInput formControlName="issueDate" (change)="send()" maxlength="40" [(ngModel)]="editData.issueDate"
+        <input matInput formControlName="issueDate" min="{{input.date}}" max="{{input.date}}" (change)="send()" maxlength="40" [(ngModel)]="editData.issueDate"
             type="date">
         <mat-error *ngIf="attendance.controls.issueDate.touched && attendance.controls.issueDate.invalid">
             <span *ngIf="attendance.controls.issueDate.errors!.required">This field is mandatory.</span>
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" appearance="outline" *ngIf="data !=null">
+        <mat-label>Status
+        </mat-label>
+        <input matInput formControlName="Status" (change)="send()" maxlength="40" [(ngModel)]="editData.Status">
+        <mat-error *ngIf="attendance.controls.Status.touched && attendance.controls.Status.invalid">
+            <span *ngIf="attendance.controls.Status.errors!.required">This field is mandatory.</span>
         </mat-error>
     </mat-form-field>
 
     <mat-form-field class="form-field" appearance="outline">
         <mat-label>Return Date
         </mat-label>
-        <input matInput formControlName="returnDate" (change)="send()" maxlength="40" [(ngModel)]="editData.returnDate"
+        <input matInput formControlName="returnDate"  min="{{input.date}}" max="{{input.return}}" (change)="send()" maxlength="40" [(ngModel)]="editData.returnDate"
             type="date">
         <mat-error *ngIf="attendance.controls.returnDate.touched && attendance.controls.returnDate.invalid">
             <span *ngIf="attendance.controls.returnDate.errors!.required">This field is mandatory.</span>
@@ -51,10 +59,11 @@
     <mat-form-field class="form-field" appearance="outline">
         <mat-label>Number Of Book
         </mat-label>
-        <input matInput formControlName="numberOfBook" (change)="send()" maxlength="40"
+        <input matInput formControlName="numberOfBook" step="1" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" (change)="send()" maxlength="1"
             [(ngModel)]="editData.numberOfBook" (keypress)="numbers($event)" type="number">
         <mat-error *ngIf="attendance.controls.numberOfBook.touched && attendance.controls.numberOfBook.invalid">
             <span *ngIf="attendance.controls.numberOfBook.errors!.required">This field is mandatory.</span>
+            <span *ngIf="attendance.controls.mobile.errors!.minLength">Max 9 Book allowed.</span>
         </mat-error>
     </mat-form-field>
 

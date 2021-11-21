@@ -21,9 +21,12 @@ export interface abc {
   styleUrls: ['./department-page.component.scss']
 })
 export class DepartmentPageComponent implements OnInit, AfterViewInit {
-  dataCol = ['departmentId', 'departmentName', 'departmentHead', 'teachersAll', 'edit'];
+  dataCol = ['delete','departmentId', 'departmentName', 'departmentHead', 'teachersAll', 'edit'];
   dataSource;
   val = []
+  deletedSrNo = [];
+  allComplete: boolean = false;
+
   @ViewChild(MatSort) sort: MatSort;
   constructor(public dailog: MatDialog, private deptService: DepartmentService, private data: DataService) {
     this.dailog.afterAllClosed
@@ -35,6 +38,37 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getData();
+  }
+  setAll(completed: boolean) {
+    this.allComplete = completed;
+    if (completed == true) {
+      this.deletedSrNo = []
+      this.dataSource.filteredData.forEach(element => {
+        this.deletedSrNo.push(element.srNo);
+      });
+      console.log(this.deletedSrNo);
+    }
+  }
+  deleteSelected(completed: boolean, id) {
+    if (completed) {
+      this.deletedSrNo.push(id);
+      console.log(this.deletedSrNo);
+    } else {
+      let index = this.deletedSrNo.indexOf(id);
+      this.deletedSrNo.splice(index, 1);
+      console.log(this.deletedSrNo);
+    }
+  }
+  deleteBatch() {
+    this.deptService.deleteBatchData(this.deletedSrNo).subscribe({
+      next: data => {
+        console.log(data);
+        this.getData()
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      }
+    })
   }
   call() {
     this.dataSource.sort = this.sort;
@@ -67,7 +101,9 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
     })
     dailogDef.afterClosed().subscribe(res => {
       console.log(res);
+      let a = []
       if (res != undefined) {
+        if (res[0] != undefined) {
         this.deptService.updateData(id, res).subscribe({
           next: data => {
             console.log(data);
@@ -78,7 +114,7 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
           }
         })
       }
-
+    }
     })
 
   }
@@ -88,7 +124,9 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
     dailogDef.afterClosed().subscribe(res => {
       let res1 = { departmentName: 'dasd', departmentHead: 'Dhiraj', teachersAll: 'ratan' }
       console.log(JSON.stringify(res));
-
+      let a = []
+      if (res != undefined) {
+        if (res[0] != undefined) {
       this.deptService.createData(res).subscribe({
         next: data => {
           console.log(data);
@@ -98,6 +136,8 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
           console.error('There was an error!', error);
         }
       })
+    }
+  }
     })
   }
 }

@@ -1,3 +1,4 @@
+import { AboutComponent } from './components/about/about.component';
 import { registerLocaleData } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -16,6 +17,9 @@ const routes: Routes = [
   },
   {
     path: 'home', canActivate: [AuthGuard], component: HomeComponent
+  },
+  {
+    path: 'about',canActivate:[AuthGuard],component:AboutComponent
   }
 ];
 

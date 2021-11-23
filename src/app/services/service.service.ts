@@ -7,8 +7,10 @@ import { Injectable } from '@angular/core';
 export class ServiceService {
   url = 'http://localhost:8080/api/showStudentDetails';
   editUrl = 'http://localhost:8080/api/updateStudentDetails';
+
   deleteUrl = 'http://localhost:8080/api/deleteStudentDetails?studentId=';
   insertUrl = 'http://localhost:8080/api/inserstudentDetails';
+
   insertBatch = "http://localhost:8080/api/InsertBatch"
   deleteBatch = "http://localhost:8080/api/DeleteMultiplerecordes";
   data;

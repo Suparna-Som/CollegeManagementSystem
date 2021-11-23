@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AttendanceService } from 'src/app/services/attendance.service';
@@ -14,14 +16,18 @@ import { StudentDailogComponent } from '../student-dailog/student-dailog.compone
   styleUrls: ['./student-page.component.scss']
 })
 export class StudentPageComponent implements OnInit {
-  dataCol = ["delete", 'studentId', 'studentName', 'departmentName', 'studentMobileNo', 'studentAddmissionDate', 'edit'];
+  dataCol = ["delete", 'studentId', 'studentName', 'departmentName', 'studentMobileNo', 'studentAdmissionDate', 'edit'];
   //dataSource = new MatTableDataSource([{ "studentId": 1, "studentName": "tiya", "departmentName": "Sci", "studentMobileNo": "23568709", "studentAddmissionDate": "2020-02-09" }, { "studentId": 2, "studentName": "trisha", "departmentName": "cse", "studentMobileNo": "342654562", "studentAddmissionDate": "2019-08-07" }, { "studentId": 3, "studentName": "dhf", "departmentName": "bsd", "studentMobileNo": "4365246", "studentAddmissionDate": "2010-08-06" }, { "studentId": 4, "studentName": "fdgf", "departmentName": "dhfj", "studentMobileNo": "543656", "studentAddmissionDate": "2019-09-08" }]);
   dataSource;
   allComplete: boolean = false;
   deletedSrNo = [];
+  totalRows = 0;
+  pageSize = 5;
+  currentPage = 0;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   val = []
-  constructor(public dailog: MatDialog, private student: ServiceService, private data: DataService) {
+  constructor(public dailog: MatDialog, private snack: MatSnackBar, private student: ServiceService, private data: DataService) {
     this.dailog.afterAllClosed
     data.login = true
   }
@@ -35,33 +41,43 @@ export class StudentPageComponent implements OnInit {
       this.dataSource.filteredData.forEach(element => {
         this.deletedSrNo.push(element.studentId);
       });
-      console.log(this.deletedSrNo);
+
 
     }
   }
   deleteSelected(completed: boolean, id) {
     if (completed) {
       this.deletedSrNo.push(id);
-      console.log(this.deletedSrNo);
+
     } else {
       let index = this.deletedSrNo.indexOf(id);
       this.deletedSrNo.splice(index, 1);
-      console.log(this.deletedSrNo);
+
     }
   }
   deleteBatch() {
     this.student.deleteBatchData(this.deletedSrNo).subscribe({
       next: data => {
-        console.log(data);
+
+        this.snack.open("Deleted Successfully", 'Done', {
+          duration: 3000
+        });
         this.getData()
       },
       error: error => {
-        console.error('There was an error!', error);
+        this.snack.open("Something went wrong", 'Done', {
+          duration: 3000
+        });
+
       }
     })
   }
   call() {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+  pageChanged(event) {
+    console.log(event);
   }
   ngOnInit(): void {
     this.getData();
@@ -72,36 +88,49 @@ export class StudentPageComponent implements OnInit {
       this.val.push(res)
       this.dataSource = new MatTableDataSource(this.val[0]);
       this.val = []
-      console.log(this.dataSource);
+
       this.call()
     });
   }
   deleteData(id) {
     this.student.deleteData(id).subscribe({
       next: data => {
-        console.log(data);
+
+        this.snack.open("Deleted Successfully", 'Done', {
+          duration: 3000
+        });
         this.getData()
       },
       error: error => {
-        console.error('There was an error!', error);
+        this.snack.open("Something went wrong", 'Done', {
+          duration: 3000
+        });
+
       }
     });
   }
   editData(id, editData) {
 
-    console.log("editddta", editData);
     const dailogDef = this.dailog.open(StudentDailogComponent, {
       data: editData
     })
     dailogDef.afterClosed().subscribe(res => {
       console.log(res);
-      this.student.updateData(id, res).subscribe({
+
+      this.student.updateData(id, res[0]).subscribe({
         next: data => {
-          console.log(data);
+
+          this.snack.open("Updated Successfully", 'Done', {
+            duration: 3000
+          });
           this.getData()
         },
         error: error => {
-          console.error('There was an error!', error);
+          this.snack.open("Something went wrong", 'Done', {
+            duration: 3000
+          });
+          console.log(error);
+
         }
       })
     })
@@ -111,15 +140,32 @@ export class StudentPageComponent implements OnInit {
     const dailogDef = this.dailog.open(StudentDailogComponent)
     dailogDef.afterClosed().subscribe(res => {
       console.log(res);
-      this.student.createData(res).subscribe({
-        next: data => {
-          console.log("data Enter= " + data);
-          this.getData()
-        },
-        error: error => {
-          console.error('There was an error!', error);
-        }
-      })
+
+      if (res[0] == undefined) {
+        this.snack.open("Please enter data then save", 'Done', {
+          duration: 3000
+        });
+      } else {
+        this.student.createData(res).subscribe({
+          next: data => {
+
+            this.snack.open("Inserted Successfully", 'Done', {
+              duration: 3000
+            });
+            console.log(data);
+
+            this.getData()
+          },
+          error: error => {
+            // this.snack.open("Something went wrong", 'Done', {
+            //   duration: 3000
+            // });
+            // console.log(error);
+            // this.getData()
+          }
+        })
+      }
+
     })
   }
 }

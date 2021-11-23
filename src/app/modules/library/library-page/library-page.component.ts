@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AttendanceService } from 'src/app/services/attendance.service';
@@ -13,13 +15,17 @@ import { LibraryDailogComponent } from '../library-dailog/library-dailog.compone
   styleUrls: ['./library-page.component.scss']
 })
 export class LibraryPageComponent implements OnInit {
-  dataCol = ['delete', 'srNo', 'studentId', 'studentName', 'bookName', 'issueDate', "Status", 'returnDate', 'numberOfBook', 'librarian', 'edit'];
+  dataCol = ['delete', 'srNo', 'studentId', 'studentName', 'bookName', 'issueDate', "Status", 'returnDate', 'Penalty', 'studentReturnDate', 'librarian', 'edit'];
   val = []
   allComplete: boolean = false;
   dataSource;
   deletedSrNo = [];
+  totalRows = 0;
+  pageSize = 5;
+  currentPage = 0;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(public dailog: MatDialog, private library: LibraryService, private data: DataService) {
+  constructor(public dailog: MatDialog, private snack: MatSnackBar, private library: LibraryService, private data: DataService) {
     this.dailog.afterAllClosed;
     data.login = true;
   }
@@ -33,35 +39,44 @@ export class LibraryPageComponent implements OnInit {
       this.dataSource.filteredData.forEach(element => {
         this.deletedSrNo.push(element.srNo);
       });
-      console.log(this.deletedSrNo);
+
 
     }
   }
   deleteSelected(completed: boolean, id) {
     if (completed) {
       this.deletedSrNo.push(id);
-      console.log(this.deletedSrNo);
 
     } else {
       let index = this.deletedSrNo.indexOf(id);
       this.deletedSrNo.splice(index, 1);
-      console.log(this.deletedSrNo);
+
 
     }
   }
   deleteBatch() {
     this.library.deleteBatchData(this.deletedSrNo).subscribe({
       next: data => {
-        console.log(data);
+
+        this.snack.open("Deleted successfully", 'Done', {
+          duration: 3000
+        });
         this.getData()
       },
       error: error => {
-        console.error('There was an error!', error);
+        this.snack.open("Something went wrong", 'Done', {
+          duration: 3000
+        });
+
       }
     })
   }
+  pageChanged(event) {
+    console.log(event);
+  }
   call() {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
   ngOnInit(): void {
     this.getData()
@@ -78,11 +93,17 @@ export class LibraryPageComponent implements OnInit {
   deleteData(id) {
     this.library.deleteData(id).subscribe({
       next: data => {
-        console.log(data);
+
+        this.snack.open("Deleted successfully", 'Done', {
+          duration: 3000
+        });
         this.getData()
       },
       error: error => {
-        console.error('There was an error!', error);
+        this.snack.open("Something went wrong", 'Done', {
+          duration: 3000
+        });
+
       }
     });
   }
@@ -96,11 +117,17 @@ export class LibraryPageComponent implements OnInit {
         if (res[0] != undefined) {
           this.library.updateData(id, res[0]).subscribe({
             next: data => {
-              console.log("successfull", data);
+
+              this.snack.open("Updated successfully", 'Done', {
+                duration: 3000
+              });
               this.getData()
             },
             error: error => {
-              console.error('There was an error!', error);
+              this.snack.open("Something went wrong", 'Done', {
+                duration: 3000
+              });
+
             }
           })
         }
@@ -111,17 +138,23 @@ export class LibraryPageComponent implements OnInit {
     const dailogDef = this.dailog.open(LibraryDailogComponent)
     dailogDef.afterClosed().subscribe(res1 => {
       let a = []
-      console.log(res1);
+
 
       if (res1 != undefined) {
         if (res1[0] != undefined) {
           this.library.createData(res1).subscribe({
             next: data => {
-              console.log(data);
+
+              this.snack.open("Inserted successfully", 'Done', {
+                duration: 3000
+              });
               this.getData()
             },
             error: error => {
-              console.error('There was an error!', error);
+              this.snack.open("Something went wrong", 'Done', {
+                duration: 3000
+              });
+
             }
           })
         }

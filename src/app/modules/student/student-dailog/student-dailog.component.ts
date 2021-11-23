@@ -1,6 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { InputService } from 'src/app/services/input.service';
 
 @Component({
@@ -19,22 +20,34 @@ export class StudentDailogComponent implements OnInit {
   counts = 0;
   arrCounts: number[] = [1];
   addedData = [];
-  constructor(private input: InputService, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private input: InputService, private snack: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: any) { }
   ngOnInit(): void {
     if (this.data != null) {
       this.editData = this.data
-      console.log(this.editData);
+
     }
   }
 
   getChildData(event) {
     console.log(event);
+
     this.addedData.push(event)
   }
   deleteRow(i) {
-    console.log(i);
+
     this.arrCounts.splice(i, 1);
-    console.log(this.arrCounts);
+
+  }
+  close() {
+
+    console.log(this.addedData);
+    console.log("Please enter data then save");
+
+    if (this.addedData === []) {
+      this.snack.open("Please enter data then save", 'Done', {
+        duration: 3000
+      });
+    }
   }
   addForm() {
     this.arrCounts.push(this.counts);

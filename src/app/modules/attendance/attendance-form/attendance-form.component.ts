@@ -26,14 +26,15 @@ export class AttendanceFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.data != null) {
       this.editData = this.data
-      console.log(this.editData);
+
       this.validatorForData();
     } else {
       this.validator();
     }
   }
   send() {
-    console.log("Send Call");
+    console.log(this.attendance.value);
+    console.log("send");
 
     if (this.attendance.valid) {
       this.child.emit(this.attendance.value)
@@ -45,7 +46,7 @@ export class AttendanceFormComponent implements OnInit {
       'studentName': new FormControl('', [Validators.required]),
       'department': new FormControl('', [Validators.required]),
       'loginTime': new FormControl('', [Validators.required]),
-      'logoutTime': new FormControl('', ),
+      'logoutTime': new FormControl('',),
     })
   }
   validatorForData() {

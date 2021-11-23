@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from 'src/app/services/data.service';
@@ -21,14 +23,18 @@ export interface abc {
   styleUrls: ['./department-page.component.scss']
 })
 export class DepartmentPageComponent implements OnInit, AfterViewInit {
-  dataCol = ['delete','departmentId', 'departmentName', 'departmentHead', 'teachersAll', 'edit'];
+  dataCol = ['delete', 'departmentId', 'departmentName', 'departmentHead', 'teachersAll', 'edit'];
   dataSource;
   val = []
   deletedSrNo = [];
+  totalRows = 0;
+  pageSize = 5;
+  currentPage = 0;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   allComplete: boolean = false;
 
   @ViewChild(MatSort) sort: MatSort;
-  constructor(public dailog: MatDialog, private deptService: DepartmentService, private data: DataService) {
+  constructor(public dailog: MatDialog, private snack: MatSnackBar, private deptService: DepartmentService, private data: DataService) {
     this.dailog.afterAllClosed
     data.login = true
   }
@@ -46,32 +52,42 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
       this.dataSource.filteredData.forEach(element => {
         this.deletedSrNo.push(element.srNo);
       });
-      console.log(this.deletedSrNo);
+
     }
   }
   deleteSelected(completed: boolean, id) {
     if (completed) {
       this.deletedSrNo.push(id);
-      console.log(this.deletedSrNo);
+
     } else {
       let index = this.deletedSrNo.indexOf(id);
       this.deletedSrNo.splice(index, 1);
-      console.log(this.deletedSrNo);
+
     }
   }
   deleteBatch() {
     this.deptService.deleteBatchData(this.deletedSrNo).subscribe({
       next: data => {
-        console.log(data);
+
+        this.snack.open("Deleted Successfully", 'Done', {
+          duration: 3000
+        });
         this.getData()
       },
       error: error => {
-        console.error('There was an error!', error);
+        this.snack.open("Something went wrong", 'Done', {
+          duration: 3000
+        });
+
       }
     })
   }
   call() {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+  pageChanged(event) {
+
   }
   getData() {
     this.dataSource = ""
@@ -79,42 +95,54 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
       this.val.push(res)
       this.dataSource = new MatTableDataSource(this.val[0]);
       this.val = []
-      console.log(this.dataSource);
+
       this.call()
     });
   }
   deleteData(id) {
     this.deptService.deleteData(id).subscribe({
       next: data => {
-        console.log(data);
+
+        this.snack.open("Deleted Successfully", 'Done', {
+          duration: 3000
+        });
         this.getData()
       },
       error: error => {
-        console.error('There was an error!', error);
+        this.snack.open("Something went wrong", 'Done', {
+          duration: 3000
+        });
+
       }
     });
   }
   editData(id, editData) {
-    console.log("editddta", editData);
+
     const dailogDef = this.dailog.open(DepartmentDailogComponent, {
       data: editData
     })
     dailogDef.afterClosed().subscribe(res => {
-      console.log(res);
+
       let a = []
       if (res != undefined) {
         if (res[0] != undefined) {
-        this.deptService.updateData(id, res).subscribe({
-          next: data => {
-            console.log(data);
-            this.getData()
-          },
-          error: error => {
-            console.error('There was an error!', error);
-          }
-        })
+          this.deptService.updateData(id, res).subscribe({
+            next: data => {
+
+              this.snack.open("Upadted Successfully", 'Done', {
+                duration: 3000
+              });
+              this.getData()
+            },
+            error: error => {
+              this.snack.open("Something went wrong", 'Done', {
+                duration: 3000
+              });
+
+            }
+          })
+        }
       }
-    }
     })
 
   }
@@ -123,21 +151,27 @@ export class DepartmentPageComponent implements OnInit, AfterViewInit {
     const dailogDef = this.dailog.open(DepartmentDailogComponent)
     dailogDef.afterClosed().subscribe(res => {
       let res1 = { departmentName: 'dasd', departmentHead: 'Dhiraj', teachersAll: 'ratan' }
-      console.log(JSON.stringify(res));
+
       let a = []
       if (res != undefined) {
         if (res[0] != undefined) {
-      this.deptService.createData(res).subscribe({
-        next: data => {
-          console.log(data);
-          this.getData()
-        },
-        error: error => {
-          console.error('There was an error!', error);
+          this.deptService.createData(res).subscribe({
+            next: data => {
+
+              this.snack.open("Inserted Successfully", 'Done', {
+                duration: 3000
+              });
+              this.getData()
+            },
+            error: error => {
+              this.snack.open("Something went wrong", 'Done', {
+                duration: 3000
+              });
+
+            }
+          })
         }
-      })
-    }
-  }
+      }
     })
   }
 }

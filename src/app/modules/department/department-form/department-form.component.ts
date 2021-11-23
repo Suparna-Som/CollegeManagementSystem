@@ -22,14 +22,13 @@ export class DepartmentFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.data != null) {
       this.editData = this.data
-      console.log(this.editData);
+
       this.validatorForData();
     } else {
       this.validator();
     }
   }
   send() {
-    console.log("Send Call");
 
     if (this.departmentForm.valid) {
       this.child.emit(this.departmentForm.value)

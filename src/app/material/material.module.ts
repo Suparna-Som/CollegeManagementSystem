@@ -62,7 +62,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatTabsModule,
     MatSortModule,
     MatMenuModule,
- 
+
   ],
   exports: [
     MatTabsModule,
@@ -95,7 +95,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatPaginatorModule,
     MatSortModule,
     MatMenuModule,
-   
+
   ]
 })
 export class MaterialModule { }

@@ -25,16 +25,15 @@ export class LibraryFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.data != null) {
       this.editData = this.data
-      console.log(this.editData);
+
       this.validatorForData();
     } else {
       this.validator();
     }
   }
   send() {
-    console.log("Send Call");
-    console.log(this.attendance.value);
-    
+
+
     if (this.attendance.valid) {
       this.child.emit(this.attendance.value)
     }
@@ -47,7 +46,8 @@ export class LibraryFormComponent implements OnInit {
       'issueDate': new FormControl('', [Validators.required]),
       'Status': new FormControl('', [Validators.required]),
       'returnDate': new FormControl('', [Validators.required]),
-      'numberOfBook': new FormControl('', [Validators.required,Validators.minLength(1)]),
+      'studentReturnDate': new FormControl('', [Validators.required]),
+      // 'numberOfBook': new FormControl('', [Validators.required, Validators.minLength(1)]),
       'librarian': new FormControl('', [Validators.required]),
       'srNo': new FormControl(this.data.srNo)
     })
@@ -58,8 +58,8 @@ export class LibraryFormComponent implements OnInit {
       'studentName': new FormControl('', [Validators.required]),
       'bookName': new FormControl('', [Validators.required]),
       'issueDate': new FormControl('', [Validators.required]),
-      'returnDate': new FormControl('',),
-      'numberOfBook': new FormControl('', [Validators.required,Validators.minLength(1)]),
+      // 'returnDate': new FormControl('',),
+      // 'numberOfBook': new FormControl('', [Validators.required, Validators.minLength(1)]),
       'librarian': new FormControl('', [Validators.required]),
     })
   }

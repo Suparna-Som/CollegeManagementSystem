@@ -1,6 +1,8 @@
-import { ThrowStmt } from '@angular/compiler';
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AttendanceService } from 'src/app/services/attendance.service';
@@ -16,10 +18,14 @@ export class AttendancePageComponent implements OnInit {
   dataCol = ['delete', 'srNo', 'studentId', 'studentName', 'department', 'loginTime', 'logoutTime', 'attendencePercentage', 'edit'];
   dataSource;
   allComplete: boolean = false;
+  totalRows = 0;
+  pageSize = 5;
+  currentPage = 0;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   val = []
   deletedSrNo = [];
-  constructor(public dailog: MatDialog, private attendannce: AttendanceService, private data: DataService) {
+  constructor(public dailog: MatDialog, private snack: MatSnackBar, private attendannce: AttendanceService, private data: DataService) {
     this.dailog.afterAllClosed
     data.login = true
   }
@@ -33,32 +39,44 @@ export class AttendancePageComponent implements OnInit {
       this.dataSource.filteredData.forEach(element => {
         this.deletedSrNo.push(element.srNo);
       });
-      console.log(this.deletedSrNo);
+
     }
+  }
+
+  pageChanged(event) {
+    console.log(event);
+
   }
   deleteSelected(completed: boolean, id) {
     if (completed) {
       this.deletedSrNo.push(id);
-      console.log(this.deletedSrNo);
+
     } else {
       let index = this.deletedSrNo.indexOf(id);
       this.deletedSrNo.splice(index, 1);
-      console.log(this.deletedSrNo);
+
     }
   }
   deleteBatch() {
     this.attendannce.deleteBatchData(this.deletedSrNo).subscribe({
       next: data => {
-        console.log(data);
+
+        this.snack.open("Deleted Successfully", 'Done', {
+          duration: 3000
+        });
         this.getData()
       },
       error: error => {
-        console.error('There was an error!', error);
+        this.snack.open("Something went wrong", 'Done', {
+          duration: 3000
+        });
+
       }
     })
   }
   call() {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
   ngOnInit(): void {
     this.getData();
@@ -69,39 +87,51 @@ export class AttendancePageComponent implements OnInit {
       this.val.push(res)
       this.dataSource = new MatTableDataSource(this.val[0]);
       this.val = []
-      console.log(this.dataSource);
+
       this.call()
     });
   }
   deleteData(id) {
     this.attendannce.deleteData(id).subscribe({
       next: data => {
-        console.log(data);
+
+        this.snack.open("Deleted Successfully", 'Done', {
+          duration: 3000
+        });
         this.getData()
       },
       error: error => {
-        console.error('There was an error!', error);
+        this.snack.open("Something went wrong", 'Done', {
+          duration: 3000
+        });
+
       }
     });
   }
   editData(id, editData) {
 
-    console.log("editddta", editData);
     const dailogDef = this.dailog.open(AttendanceDailogComponent, {
       data: editData
     })
     dailogDef.afterClosed().subscribe(res => {
       console.log(res);
+
       if (res != undefined) {
         if (res[0] != undefined) {
-          console.log("res", res[0]);
+
           this.attendannce.updateData(id, res[0]).subscribe({
             next: data => {
-              console.log(data);
+
+              this.snack.open("Edited Successfully", 'Done', {
+                duration: 3000
+              });
               this.getData()
             },
             error: error => {
-              console.error('There was an error!', error);
+              this.snack.open("Something went wrong", 'Done', {
+                duration: 3000
+              });
+
             }
           })
         }
@@ -117,11 +147,17 @@ export class AttendancePageComponent implements OnInit {
         if (res[0] != undefined) {
           this.attendannce.createData(res).subscribe({
             next: data => {
-              console.log(data);
+
+              this.snack.open("Inserted successfully", 'Done', {
+                duration: 3000
+              });
               this.getData()
             },
             error: error => {
-              console.error('There was an error!', error);
+              this.snack.open("Something went wrong", 'Done', {
+                duration: 3000
+              });
+
             }
           })
         }

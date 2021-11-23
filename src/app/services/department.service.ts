@@ -7,9 +7,9 @@ import { Injectable } from '@angular/core';
 export class DepartmentService {
   url = 'http://localhost:8080/getDepartment';
   editUrl = 'http://localhost:8080/updateDepartment';
-  deleteUrl='http://localhost:8080/deleteDepartment?deptId=';
-  insertUrl ='http://localhost:8080/insertDepartment';
-  deleteBatch = "http://localhost:8080/attendence/deleteBatch";
+  deleteUrl = 'http://localhost:8080/deleteDepartment?deptId=';
+  insertUrl = 'http://localhost:8080/insertDepartment';
+  deleteBatch = "http://localhost:8080/DeleteMultiplDepartment";
 
   constructor(private http: HttpClient) { }
   getMethod() {

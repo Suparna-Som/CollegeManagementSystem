@@ -40,16 +40,23 @@ export class RegistrationComponent implements OnInit {
       this.auth.createData(this.registrationForm.value).subscribe({
         next: data => {
           console.log(data);
+          if (data == 0) {
+            this.snack.open("user already register", 'Done', {
+              duration: 3000
+            });
+          } else {
+            this.route.navigateByUrl('login');
+            this.snack.open("User has been register!! Now login", 'Done', {
+              duration: 3000
+            });
+          }
         },
         error: error => {
           console.error('There was an error!', error);
         }
       })
       //localStorage.setItem("user", JSON.stringify(this.registrationForm.value));
-      this.route.navigateByUrl('login');
-      this.snack.open("User has been register!! Now login", 'Done', {
-        duration: 3000
-      });
+
     }
 
   }

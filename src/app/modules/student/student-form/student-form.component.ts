@@ -14,7 +14,7 @@ export class StudentFormComponent implements OnInit {
     studentName: '',
     departmentName: '',
     studentMobileNo: '',
-    studentAddmissionDate: ''
+    studentAdmissionDate: ''
   }
   @Output() child = new EventEmitter()
   @Input() data;
@@ -23,14 +23,15 @@ export class StudentFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.data != null) {
       this.editData = this.data
-      console.log(this.editData);
+
       this.validatorForData();
     } else {
       this.validator();
     }
   }
   send() {
-    console.log("Send Call");
+
+    console.log(this.attendance.value);
 
     if (this.attendance.valid) {
       this.child.emit(this.attendance.value)
@@ -41,8 +42,8 @@ export class StudentFormComponent implements OnInit {
       'studentId': new FormControl('', [Validators.required]),
       'studentName': new FormControl('', [Validators.required]),
       'departmentName': new FormControl('', [Validators.required]),
-      'studentMobileNo': new FormControl('', [Validators.required,Validators.minLength(10)]),
-      'studentAddmissionDate': new FormControl('', [Validators.required]),
+      'studentMobileNo': new FormControl('', [Validators.required, Validators.minLength(10)]),
+      'studentAdmissionDate': new FormControl('', [Validators.required]),
     })
   }
   validator() {
@@ -50,8 +51,8 @@ export class StudentFormComponent implements OnInit {
       'studentId': new FormControl('', [Validators.required]),
       'studentName': new FormControl('', [Validators.required]),
       'departmentName': new FormControl('', [Validators.required]),
-      'studentMobileNo': new FormControl('', [Validators.required,Validators.minLength(10)]),
-      'studentAddmissionDate': new FormControl('', [Validators.required]),
+      'studentMobileNo': new FormControl('', [Validators.required, Validators.minLength(10)]),
+      'studentAdmissionDate': new FormControl('', [Validators.required]),
     })
   }
   char(event: { keyCode: number; preventDefault: () => void; }) {
